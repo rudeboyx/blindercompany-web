@@ -3,169 +3,667 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blinder Company</title>
+  <title>Blinder Company | Ingeniería, climatización y seguridad</title>
+  <meta
+    name="description"
+    content="Blinder Company ofrece soluciones de ingeniería, climatización, seguridad electrónica y soporte técnico para empresas y proyectos que exigen orden, eficiencia y presencia profesional."
+  >
 
   <style>
+    :root {
+      --bg: #04112a;
+      --bg-2: #0a1b40;
+      --panel: rgba(255,255,255,0.07);
+      --panel-2: rgba(255,255,255,0.05);
+      --border: rgba(255,255,255,0.11);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --muted-2: #94a3b8;
+      --primary: #3b82f6;
+      --primary-2: #2563eb;
+      --success: #22c55e;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.34);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(180deg, #04112a, #0a1b40);
-      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(59,130,246,0.16), transparent 25%),
+        radial-gradient(circle at 90% 20%, rgba(34,197,94,0.12), transparent 18%),
+        linear-gradient(180deg, var(--bg), var(--bg-2));
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
     }
 
     .nav {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(14px);
+      background: rgba(4, 17, 42, 0.75);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .nav-inner {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 18px 32px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 0;
     }
 
     .brand {
-      font-size: 20px;
-      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
     }
 
-    .menu {
+    .brand-logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      object-fit: cover;
+      background: linear-gradient(135deg, var(--primary), #60a5fa);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .brand-fallback {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: none;
+      place-items: center;
+      font-size: 20px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), #60a5fa);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .brand-text {
       display: flex;
-      gap: 20px;
-      color: #cbd5e1;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-text strong {
+      font-size: 16px;
+    }
+
+    .brand-text span {
+      color: var(--muted-2);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      color: var(--muted);
       font-size: 14px;
     }
 
+    .nav-links a:hover,
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .nav-cta {
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+      box-shadow: var(--shadow);
+    }
+
     .hero {
-      min-height: 85vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
+      padding: 78px 0 54px;
     }
 
-    .box {
-      max-width: 1000px;
-      width: 100%;
+    .hero-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+      align-items: center;
     }
 
-    .left h1 {
-      margin: 0 0 16px;
-      font-size: 50px;
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: #dbeafe;
+      font-size: 13px;
+      margin-bottom: 18px;
     }
 
-    .left p {
-      color: #cbd5e1;
-      line-height: 1.7;
+    h1 {
+      margin: 0 0 18px;
+      font-size: clamp(38px, 6vw, 72px);
+      line-height: 0.98;
+      letter-spacing: -1.8px;
+      max-width: 760px;
     }
 
-    .buttons {
-      margin-top: 20px;
+    .hero-copy {
+      font-size: 18px;
+      line-height: 1.75;
+      color: var(--muted);
+      max-width: 760px;
+    }
+
+    .hero-actions {
       display: flex;
-      gap: 10px;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
     }
 
     .btn {
-      padding: 12px 18px;
-      border-radius: 10px;
-      font-weight: bold;
-      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 22px;
+      border-radius: 14px;
+      font-weight: 700;
+      transition: .2s ease;
     }
 
     .btn-primary {
-      background: #3b82f6;
+      background: var(--primary);
       color: white;
+      box-shadow: var(--shadow);
     }
+
+    .btn-primary:hover { background: var(--primary-2); }
 
     .btn-secondary {
-      background: rgba(255,255,255,0.1);
-      color: white;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid var(--border);
+      color: var(--text);
     }
 
-    .card {
-      background: rgba(255,255,255,0.08);
-      padding: 20px;
-      border-radius: 16px;
+    .hero-stats {
+      display: grid;
+      gap: 14px;
+    }
+
+    .stat-card,
+    .card,
+    .contact-box {
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.05));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .stat-card {
+      padding: 18px 20px;
+      border-radius: 20px;
+    }
+
+    .stat-card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 20px;
+    }
+
+    .stat-card span {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
     }
 
     .section {
-      padding: 40px 20px;
+      padding: 26px 0 70px;
+    }
+
+    .section-head {
+      margin-bottom: 22px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 42px);
+    }
+
+    .section-copy {
+      margin: 10px 0 0;
+      max-width: 760px;
+      color: var(--muted);
+      line-height: 1.75;
     }
 
     .services {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      background: rgba(59,130,246,0.16);
+      margin-bottom: 16px;
+    }
+
+    .card h3 {
+      margin: 0 0 12px;
+      font-size: 22px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .points {
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      color: #dbeafe;
+      font-size: 14px;
+    }
+
+    .points li::before {
+      content: "• ";
+      color: var(--success);
+    }
+
+    .confidence {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 18px;
+    }
+
+    .mini-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 22px;
+    }
+
+    .mini-card strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .mini-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .highlight {
+      border-radius: 26px;
+      padding: 28px;
+      background: linear-gradient(135deg, rgba(59,130,246,0.18), rgba(34,197,94,0.14));
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: var(--shadow);
+    }
+
+    .highlight strong {
+      display: block;
+      font-size: 44px;
+      margin-bottom: 10px;
+    }
+
+    .highlight span {
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .contact-box {
+      border-radius: 28px;
+      padding: 30px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 20px;
+    }
+
+    .contact-box h2 {
+      margin: 0;
+      font-size: 34px;
+    }
+
+    .contact-box p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .contact-list {
+      margin-top: 18px;
+      display: grid;
+      gap: 12px;
+      color: var(--muted);
+    }
+
+    .contact-list strong { color: white; }
+
+    .side-panel {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 24px;
+    }
+
+    .side-panel h3 {
+      margin-top: 0;
+      font-size: 22px;
+    }
+
+    .side-panel p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 24px 0 44px;
+      color: var(--muted-2);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       gap: 16px;
-      max-width: 1100px;
-      margin: auto;
     }
 
-    .service {
-      background: rgba(255,255,255,0.06);
-      padding: 18px;
-      border-radius: 14px;
+    .footer-links {
+      display: flex;
+      gap: 18px;
     }
 
-    @media (max-width: 900px) {
-      .box, .services {
+    .whatsapp {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      width: 62px;
+      height: 62px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      font-size: 26px;
+      background: #25d366;
+      color: white;
+      box-shadow: var(--shadow);
+      z-index: 40;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .services,
+      .confidence,
+      .about-grid,
+      .contact-box {
         grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .nav-links { display: none; }
+      .nav-inner { justify-content: space-between; }
+      .hero { padding-top: 56px; }
+      .hero-actions { display: grid; }
+      .btn, .nav-cta { width: 100%; }
+      h1 { font-size: 42px; }
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
 </head>
-
 <body>
 
-<nav class="nav">
-  <div class="brand">BLINDER COMPANY</div>
-  <div class="menu">
-    <span>Servicios</span>
-    <span>Nosotros</span>
-    <span>Contacto</span>
-  </div>
-</nav>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="#inicio" class="brand">
+        <img
+          class="brand-logo"
+          src="AQUI_TU_LOGO_URL"
+          alt="Blinder Company Logo"
+          onerror="this.style.display='none'; document.getElementById('brandFallback').style.display='grid';"
+        >
+        <div class="brand-fallback" id="brandFallback">B</div>
 
-<section class="hero">
-  <div class="box">
-    <div class="left">
-      <h1>Soluciones de ingeniería para empresas</h1>
-      <p>
-        Blinder Company desarrolla soluciones técnicas con enfoque profesional,
-        combinando ejecución, presencia y criterio comercial.
-      </p>
+        <div class="brand-text">
+          <strong>BLINDER COMPANY</strong>
+          <span>Engineering and Solutions</span>
+        </div>
+      </a>
 
-      <div class="buttons">
-        <a class="btn btn-primary" href="#">Cotizar proyecto</a>
-        <a class="btn btn-secondary" href="#">Ver servicios</a>
+      <div class="nav-links">
+        <a href="#servicios">Servicios</a>
+        <a href="#confianza">Confianza</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+
+      <a class="nav-cta" href="https://wa.me/569XXXXXXXX" target="_blank">Cotizar proyecto</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Ingeniería • Climatización • Seguridad electrónica</div>
+
+          <h1>Soluciones de ingeniería para empresas que necesitan resultados.</h1>
+
+          <p class="hero-copy">
+            En Blinder Company desarrollamos soluciones en climatización, seguridad electrónica
+            y soporte técnico para empresas y proyectos que exigen orden, eficiencia,
+            presencia profesional y una ejecución confiable.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="https://wa.me/569XXXXXXXX" target="_blank">Hablar por WhatsApp</a>
+            <a class="btn btn-secondary" href="#servicios">Ver servicios</a>
+          </div>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-card">
+            <strong>Respuesta comercial clara</strong>
+            <span>Atención rápida para clientes que buscan una propuesta seria y bien presentada.</span>
+          </div>
+
+          <div class="stat-card">
+            <strong>Implementación ordenada</strong>
+            <span>Ejecución técnica enfocada en terminaciones, seguridad y buena presencia operativa.</span>
+          </div>
+
+          <div class="stat-card">
+            <strong>Soporte y seguimiento</strong>
+            <span>Acompañamiento para que cada proyecto tenga continuidad, respaldo y mejor percepción de valor.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="servicios">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">Servicios principales</h2>
+          <p class="section-copy">
+            Una propuesta técnica y comercial pensada para empresas que valoran orden,
+            cumplimiento y una imagen profesional desde el primer contacto.
+          </p>
+        </div>
+
+        <div class="services">
+          <article class="card">
+            <div class="icon">❄️</div>
+            <h3>Climatización</h3>
+            <p>Soluciones para instalación, evaluación, mantención y optimización de espacios residenciales y comerciales.</p>
+            <ul class="points">
+              <li>Diagnóstico técnico</li>
+              <li>Montaje y puesta en marcha</li>
+              <li>Mantención preventiva</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="icon">📹</div>
+            <h3>Seguridad electrónica</h3>
+            <p>Sistemas orientados a control, monitoreo y resguardo de instalaciones mediante tecnología moderna.</p>
+            <ul class="points">
+              <li>Cámaras y vigilancia</li>
+              <li>Control de accesos</li>
+              <li>Protección perimetral</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="icon">⚙️</div>
+            <h3>Soporte técnico</h3>
+            <p>Implementación, respaldo y acompañamiento para proyectos que requieren continuidad y confianza.</p>
+            <ul class="points">
+              <li>Visita técnica</li>
+              <li>Levantamiento comercial</li>
+              <li>Propuesta de solución</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="confianza">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">Por qué elegir Blinder Company</h2>
+          <p class="section-copy">
+            No se trata solo de ejecutar bien. Se trata de proyectar una marca confiable,
+            técnicamente seria y comercialmente preparada para vender mejor.
+          </p>
+        </div>
+
+        <div class="confidence">
+          <div class="mini-card">
+            <strong>Mayor confianza desde el inicio</strong>
+            <p>Una presencia digital más sólida mejora la percepción de valor y eleva la autoridad de la empresa.</p>
+          </div>
+
+          <div class="mini-card">
+            <strong>Comunicación más profesional</strong>
+            <p>La propuesta se ve ordenada, clara y alineada con clientes que esperan una empresa formal.</p>
+          </div>
+
+          <div class="mini-card">
+            <strong>Base lista para crecer</strong>
+            <p>Esta estructura ya permite sumar formularios, seguimiento de leads, fotos y automatización con IA.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="nosotros">
+      <div class="container about-grid">
+        <div class="card">
+          <h2 class="section-title">Quiénes somos</h2>
+          <p class="section-copy" style="margin-top:12px;">
+            Blinder Company nace con una visión técnica y comercial:
+            desarrollar soluciones bien ejecutadas, con criterio profesional,
+            buena presentación y foco en resultados para cada cliente.
+          </p>
+        </div>
+
+        <div class="highlight">
+          <strong>Imagen premium</strong>
+          <span>
+            Esta versión ya posiciona la marca en un nivel mucho más serio.
+            El siguiente salto es reemplazar datos de ejemplo, integrar fotos reales
+            y conectar WhatsApp o formularios para captar oportunidades.
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contacto">
+      <div class="container contact-box">
+        <div>
+          <h2>Conversemos tu próximo proyecto</h2>
+          <p>
+            Podemos ayudarte a estructurar una propuesta seria, moderna y lista para presentar
+            tus servicios de forma más comercial y profesional.
+          </p>
+
+          <div class="contact-list">
+            <div><strong>Correo:</strong> contacto@blindercompany.cl</div>
+            <div><strong>WhatsApp:</strong> +56 9 XXXX XXXX</div>
+            <div><strong>Ubicación:</strong> Santiago, Chile</div>
+          </div>
+        </div>
+
+        <div class="side-panel">
+          <h3>Acción rápida</h3>
+          <p>
+            Si ya tienes claridad de lo que necesitas, podemos llevar esto al siguiente nivel
+            con botón real de WhatsApp, formulario, más autoridad visual y mejor conversión.
+          </p>
+
+          <div class="hero-actions" style="margin-top:18px;">
+            <a class="btn btn-primary" href="https://wa.me/569XXXXXXXX" target="_blank">Hablar con un especialista</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© 2026 Blinder Company · Engineering and Solutions</div>
+
+      <div class="footer-links">
+        <a href="#servicios">Servicios</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#contacto">Contacto</a>
       </div>
     </div>
+  </footer>
 
-    <div class="card">
-      <h3>Engineering and Solutions</h3>
-      <p>
-        Instalación, implementación y soporte para proyectos que requieren orden,
-        claridad y presentación profesional.
-      </p>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="services">
-    <div class="service">
-      <h4>Climatización</h4>
-      <p>Instalación y soporte técnico.</p>
-    </div>
-    <div class="service">
-      <h4>Seguridad</h4>
-      <p>Cámaras y control de acceso.</p>
-    </div>
-    <div class="service">
-      <h4>Soporte técnico</h4>
-      <p>Implementación y mantenimiento.</p>
-    </div>
-  </div>
-</section>
+  <a class="whatsapp" href="https://wa.me/569XXXXXXXX" target="_blank" aria-label="WhatsApp">✆</a>
 
 </body>
 </html>
