@@ -1,39 +1,206 @@
 <!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blinder Company</title>
-    <style>
-      body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #0f172a;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blinder Company</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #06132d, #0b1c3f);
+      color: white;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 32px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      background: rgba(6,19,45,0.85);
+    }
+
+    .brand {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .menu {
+      display: flex;
+      gap: 20px;
+      font-size: 14px;
+      color: #cbd5e1;
+    }
+
+    .hero {
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .box {
+      max-width: 980px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+    }
+
+    .left h1 {
+      margin: 0 0 16px;
+      font-size: 56px;
+      line-height: 1;
+    }
+
+    .left p {
+      margin: 0 0 24px;
+      font-size: 18px;
+      line-height: 1.7;
+      color: #cbd5e1;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 14px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.08);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 24px;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      font-size: 22px;
+    }
+
+    .card p {
+      color: #cbd5e1;
+      line-height: 1.7;
+    }
+
+    .section {
+      padding: 0 20px 70px;
+    }
+
+    .section-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .service {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 18px;
+      padding: 22px;
+    }
+
+    .service h4 {
+      margin: 0 0 12px;
+      font-size: 20px;
+    }
+
+    .service p {
+      margin: 0;
+      color: #cbd5e1;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+      .box,
+      .section-inner {
+        grid-template-columns: 1fr;
       }
-      .box {
-        text-align: center;
-        padding: 40px;
+
+      .left h1 {
+        font-size: 40px;
       }
-      h1 {
-        margin: 0 0 12px;
-        font-size: 42px;
+
+      .nav {
+        flex-direction: column;
+        gap: 12px;
       }
-      p {
-        margin: 0;
-        font-size: 20px;
-        color: #cbd5e1;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="box">
-      <h1>BLINDER COMPANY.</h1>
-      <p>Engineering and Solutions</p>
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="brand">BLINDER COMPANY</div>
+    <div class="menu">
+      <span>Servicios</span>
+      <span>Nosotros</span>
+      <span>Contacto</span>
     </div>
-  </body>
+  </nav>
+
+  <section class="hero">
+    <div class="box">
+      <div class="left">
+        <h1>Ingeniería y soluciones profesionales</h1>
+        <p>
+          Blinder Company desarrolla soluciones con imagen seria, enfoque técnico
+          y presentación comercial preparada para captar clientes y escalar.
+        </p>
+        <div class="buttons">
+          <a class="btn btn-primary" href="#">Solicitar asesoría</a>
+          <a class="btn btn-secondary" href="#">Ver servicios</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Engineering and Solutions</h3>
+        <p>
+          Diseño, implementación y soporte para proyectos que requieren orden,
+          presencia profesional y una propuesta moderna.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-inner">
+      <div class="service">
+        <h4>Climatización</h4>
+        <p>Instalación, evaluación y soporte para espacios residenciales y comerciales.</p>
+      </div>
+      <div class="service">
+        <h4>Seguridad electrónica</h4>
+        <p>Cámaras, control de acceso y soluciones enfocadas en resguardo y monitoreo.</p>
+      </div>
+      <div class="service">
+        <h4>Soporte técnico</h4>
+        <p>Implementación ordenada, seguimiento y respaldo para proyectos exigentes.</p>
+      </div>
+    </div>
+  </section>
+</body>
 </html>
