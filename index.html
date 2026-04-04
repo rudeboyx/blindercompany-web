@@ -792,26 +792,25 @@
             if (e.key === 'Enter') sendMessage();
         });
 
+        let suggestions = [
+            "Hace frío 🥶 ? Climaticemos tu hogar",
+            "Hace calor 🥵 ? te instalamos un Split de aire",
+            "Protegemos tus espacios de los amigos de lo ajeno 🥷🏻"
+        ];
+        let currentSuggestionIndex = 0;
+        const suggestionTextElement = document.getElementById("suggestionText");
+        const chatSuggestionElement = document.getElementById("chatSuggestion");
+
+        function updateSuggestion() {
+            suggestionTextElement.innerText = suggestions[currentSuggestionIndex];
+            chatSuggestionElement.classList.add("visible");
+            setTimeout(() => {
+                chatSuggestionElement.classList.remove("visible");
+                currentSuggestionIndex = (currentSuggestionIndex + 1) % suggestions.length;
+            }, 4000);
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
-            window.suggestions = [
-                "Hace frío 🥶 ? Climaticemos tu hogar",
-                "Hace calor 🥵 ? te instalamos un Split de aire",
-                "Protegemos tus espacios de los amigos de lo ajeno 🥷🏻"
-            ];
-            console.log("window.suggestions initialized:", window.suggestions);
-            let currentSuggestionIndex = 0;
-            const suggestionTextElement = document.getElementById("suggestionText");
-            const chatSuggestionElement = document.getElementById("chatSuggestion");
-
-            function updateSuggestion() {
-                suggestionTextElement.innerText = window.suggestions[currentSuggestionIndex];
-                chatSuggestionElement.classList.add("visible");
-                setTimeout(() => {
-                    chatSuggestionElement.classList.remove("visible");
-                    currentSuggestionIndex = (currentSuggestionIndex + 1) % window.suggestions.length;
-                }, 4000);
-            }
-
             updateSuggestion();
             setInterval(updateSuggestion, 5000);
             console.log("Chat suggestion elements:", suggestionTextElement, chatSuggestionElement);
