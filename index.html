@@ -600,12 +600,13 @@
                 .trim();
         }
 
-        // Función para manejar equivalencias (9k = 9000)
+        // Función para manejar equivalencias (9k = 9000 = 9.000)
         function handleEquivalences(text) {
-            return text
-                .replace(/(\d+)k/g, "$1000")
-                .replace(/(\d+)\s+k/g, "$1000")
-                .replace(/(\d+)000/g, "$1000"); // Normalizar a formato sin puntos
+            // Convertir 9k o 9 k a 9000
+            let result = text.replace(/(\d+)k/g, "$1000").replace(/(\d+)\s+k/g, "$1000");
+            // Eliminar puntos en números (ej: 9.000 -> 9000)
+            result = result.replace(/(\d+)\.(\d+)/g, "$1$2");
+            return result;
         }
 
         function parseCSV(text) {
@@ -679,16 +680,16 @@
                 botMsg.className = 'msg msg-bot';
                 
                 // Normalizar entrada del usuario
-                let query = normalize(userText);
-                query = handleEquivalences(query);
+                let queryRaw = normalize(userText);
+                let query = handleEquivalences(queryRaw);
                 
                 // Actualizar contexto si menciona categorías
                 if (query.includes('aire') || query.includes('clima') || query.includes('split')) lastContext = "aire";
                 if (query.includes('camara') || query.includes('seguridad')) lastContext = "seguridad";
                 if (query.includes('bomba') || query.includes('vacio')) lastContext = "bomba";
 
-                // Si la consulta es muy corta (ej: "9k"), usar el contexto guardado
-                if (query.length < 6 && lastContext === "aire") {
+                // Si la consulta es muy corta (ej: "9k" o "9000"), usar el contexto guardado
+                if ((query.length < 6 || !isNaN(query)) && lastContext === "aire") {
                     query = "aire " + query;
                 }
 
@@ -714,7 +715,7 @@
                     });
                     response += "¿Te gustaría solicitar una cotización formal?";
                     botMsg.innerHTML = response;
-                } else if (query.includes('aire') || query.includes('clima') || query.includes('9000') || query.includes('12000')) {
+                } else if (query.includes('aire') || query.includes('clima') || query.includes('9000') || query.includes('12000') || query.includes('18000') || query.includes('22000') || query.includes('36000')) {
                     botMsg.innerText = "Somos especialistas en climatización. Tenemos equipos Split Hisense de 9k, 12k, 18k, 22k y 36k BTU. ¿Cuál necesitas?";
                 } else if (query.includes('camara') || query.includes('seguridad')) {
                     botMsg.innerText = "Contamos con soluciones de seguridad electrónica y cámaras. ¿Necesitas un presupuesto para tu empresa o proyecto?";
