@@ -795,6 +795,7 @@
             "Hace calor 🥵 ? te instalamos un Split de aire",
             "Protegemos tus espacios de los amigos de lo ajeno 🥷🏻"
         ];
+        console.log("Suggestions array defined:", suggestions);
         let currentSuggestionIndex = 0;
         let suggestionTextElement;
         let chatSuggestionElement;
@@ -805,6 +806,8 @@
                 chatSuggestionElement = document.getElementById("chatSuggestion");
             }
             if (suggestionTextElement && chatSuggestionElement) {
+                console.log("Updating suggestion:", suggestions[currentSuggestionIndex]);
+                console.log("chatSuggestionElement.classList:", chatSuggestionElement.classList);
                 suggestionTextElement.innerText = suggestions[currentSuggestionIndex];
                 chatSuggestionElement.classList.add("visible");
                 setTimeout(() => {
@@ -818,4 +821,5 @@
             updateSuggestion();
             setInterval(updateSuggestion, 5000);
             console.log("Chat suggestion elements initialized in DOMContentLoaded.");
+            console.log("Initial suggestion:", suggestionTextElement, chatSuggestionElement);
         });
