@@ -274,8 +274,25 @@
             font-size: 1.8rem;
         }
 
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .chat-btn {
+            animation: pulse 1.5s infinite;
+        }
+
         .chat-btn:hover {
             transform: scale(1.1) rotate(10deg);
+            animation: none; /* Detener la animación al pasar el ratón */
         }
 
         .chat-suggestion {
@@ -694,8 +711,14 @@
         loadStock();
 
         window.toggleChat = function() {
-            const win = document.getElementById('chatWindow');
-            win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
+            const win = document.getElementById(\'chatWindow\');
+            const openChatBtn = document.getElementById(\'openChatBtn\');
+            win.style.display = win.style.display === \'flex\' ? \'none\' : \'flex\';
+            if (win.style.display === \'flex\') {
+                openChatBtn.style.animation = \'none\'; // Detener la animación al abrir el chat
+            } else {
+                openChatBtn.style.animation = \'pulse 1.5s infinite\'; // Reiniciar la animación al cerrar el chat
+            }
         }
 
         document.getElementById('openChatBtn').addEventListener('click', toggleChat);
@@ -783,7 +806,7 @@
         const chatSuggestionElement = document.getElementById('chatSuggestion');
 
         function updateSuggestion() {
-            suggestionTextElement.innerHTML = `<span style="background: #e90829; color: white; padding: 4px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-right: 8px;">JUL 17</span>` + suggestions[currentSuggestionIndex];
+            suggestionTextElement.innerText = suggestions[currentSuggestionIndex];
             chatSuggestionElement.classList.add('visible');
             setTimeout(() => {
                 chatSuggestionElement.classList.remove('visible');
