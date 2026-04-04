@@ -685,7 +685,7 @@
                     query = "aire " + query;
                 }
 
-                const stopWords = ['de', 'el', 'la', 'un', 'una', 'con', 'para', 'en'];
+                const stopWords = ['de', 'el', 'la', 'un', 'una', 'con', 'para', 'en', 'busco', 'buscas', 'necesito', 'necesitas', 'quiero', 'quieres', 'tienes', 'hay'];
                 const tokens = query.split(' ').filter(t => t.length > 1 && !stopWords.includes(t));
                 
                 let foundItems = stockData.filter(item => {
