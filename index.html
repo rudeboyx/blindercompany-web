@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -375,31 +376,6 @@
             outline: none;
         }
 
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            color: rgba(255,255,255,0.6);
-            font-size: 1.2rem;
-        }
-
-        .typing-indicator span {
-            animation: blink 1s infinite;
-        }
-
-        .typing-indicator span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .typing-indicator span:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 1; }
-        }
-
         .chat-send {
             background: var(--primary);
             border: none;
@@ -412,49 +388,49 @@
         .message {
             padding: 10px 15px;
             border-radius: 15px;
-            maxWidth: 85%;
+            max-width: 85%;
             font-size: 0.9rem;
             white-space: pre-wrap;
         }
 
-            .bot-msg {
-                align-self: flex-start;
-                background: rgba(255,255,255,0.05);
-                color: white;
-                border-bottom-left-radius: 2px;
-            }
-
-            .typing-indicator {
-                background-color: rgba(255,255,255,0.05);
-                padding: 10px 15px;
-                border-radius: 15px;
-                max-width: 85%;
-                align-self: flex-start;
-                display: flex;
-                gap: 5px;
-            }
-
-            .typing-indicator span {
-                width: 8px;
-                height: 8px;
-                background-color: white;
-                border-radius: 50%;
-                animation: bounce 1.4s infinite ease-in-out both;
-            }
-
-            .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
-            .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
-
-            @keyframes bounce {
-                0%, 80%, 100% { transform: scale(0); }
-                40% { transform: scale(1); }
-            }
+        .bot-msg {
+            align-self: flex-start;
+            background: rgba(255,255,255,0.05);
+            color: white;
+            border-bottom-left-radius: 2px;
+        }
 
         .user-msg {
             align-self: flex-end;
             background: var(--primary);
             color: var(--secondary);
             border-bottom-right-radius: 2px;
+        }
+
+        .typing-indicator {
+            background-color: rgba(255,255,255,0.05);
+            padding: 10px 15px;
+            border-radius: 15px;
+            max-width: 85%;
+            align-self: flex-start;
+            display: flex;
+            gap: 5px;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background-color: white;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
         }
 
         /* WhatsApp Float */
@@ -530,18 +506,16 @@
             <span id="suggestionText"></span>
         </div>
 
-        <div id="chatWindow" class="chat-window"            <div class="chat-body">
-                <div class="message bot-msg typing-indicator" style="display: none;">
-                    <span>.</span><span>.</span><span>.</span>
-                </div>er">
+        <div id="chatWindow" class="chat-window">
+            <div class="chat-header">
                 <h4 style="margin:0">🤖 Asistente Blinder IA</h4>
                 <span style="cursor:pointer;font-size:1.5rem" id="closeChatBtn">×</span>
             </div>
             <div id="chatBody" class="chat-body">
+                <div class="message bot-msg">¡Hola! Soy el asistente de Blinder Company. ¿En qué puedo ayudarte hoy?</div>
                 <div class="typing-indicator" id="typingIndicator" style="display: none;">
                     <span>.</span><span>.</span><span>.</span>
                 </div>
-                <div class="message bot-msg">¡Hola! Soy el asistente de Blinder Company. ¿En qué puedo ayudarte hoy?</div>
             </div>
             <div class="chat-input-area">
                 <input type="text" id="chatInput" class="chat-input" placeholder="Escribe tu mensaje...">
@@ -558,10 +532,6 @@
         ✆
     </a>
 
-
-
-
-
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
     <script>
@@ -571,55 +541,105 @@
             });
         })();
 
-
-
-
-
         let chatState = 'initial';
         let appointmentData = {};
+
+        const services = {
+            "climatizacion": {
+                "9000btu": "El equipo de 9.000 BTU es ideal para espacios de hasta 15 m². Tiene un valor de $350.000 CLP con instalación incluida.",
+                "12000btu": "El equipo de 12.000 BTU es perfecto para espacios de hasta 25 m². Su valor es de $450.000 CLP con instalación incluida.",
+                "18000btu": "El equipo de 18.000 BTU es recomendado para espacios de hasta 40 m². El precio es de $650.000 CLP con instalación incluida.",
+                "default": "Ofrecemos equipos de 9.000, 12.000 y 18.000 BTU. ¿De cuántos BTU necesitas?"
+            },
+            "seguridad": {
+                "camaras": "Instalamos cámaras de seguridad de alta definición con monitoreo remoto. El precio varía según la cantidad de cámaras y la complejidad de la instalación. ¿Cuántas cámaras necesitas?",
+                "alarmas": "Ofrecemos sistemas de alarmas monitoreadas 24/7. El costo mensual del servicio es de $25.000 CLP.",
+                "default": "Ofrecemos instalación de cámaras de seguridad y sistemas de alarmas. ¿Qué servicio te interesa?"
+            },
+            "default": "Ofrecemos servicios de climatización y seguridad. ¿En qué te puedo ayudar?"
+        };
 
         function handleChatInput(query) {
             const lowerCaseQuery = query.toLowerCase();
 
             switch (chatState) {
                 case 'initial':
-                    if (lowerCaseQuery.includes("hola") || lowerCaseQuery.includes("hi") || lowerCaseQuery.includes("saludos")) {
-                        addMessage("bot", "¡Hola! Soy el asistente de Blinder Company. ¿En qué puedo ayudarte hoy?\n\nSi deseas agendar una cita, puedes decirme 'Agendar Cita'.");
-                    } else if (lowerCaseQuery.includes("agendar") || lowerCaseQuery.includes("cita") || lowerCaseQuery.includes("aire") || lowerCaseQuery.includes("climatización") || lowerCaseQuery.includes("cotizar") || lowerCaseQuery.includes("necesito") || lowerCaseQuery.includes("servicio")) {
-                        addMessage("bot", "¡Claro! Para agendar una cita, necesito algunos datos. ¿Cuál es tu nombre?");
+                    if (lowerCaseQuery.includes("climatización") || lowerCaseQuery.includes("aire")) {
+                        addMessage("bot", services.climatizacion.default);
+                        chatState = 'awaitingClimatizacionDetail';
+                    } else if (lowerCaseQuery.includes("seguridad")) {
+                        addMessage("bot", services.seguridad.default);
+                        chatState = 'awaitingSeguridadDetail';
+                    } else if (lowerCaseQuery.includes("agendar") || lowerCaseQuery.includes("cita") || lowerCaseQuery.includes("visita")) {
+                        addMessage("bot", "¡Claro! Para agendar una visita, necesito algunos datos. ¿Cuál es tu nombre?");
                         chatState = 'awaitingName';
+                    } else if (lowerCaseQuery.includes("hola") || lowerCaseQuery.includes("hi") || lowerCaseQuery.includes("saludos")) {
+                        addMessage("bot", "¡Hola de nuevo! ¿En qué más puedo ayudarte?");
                     } else {
-                        addMessage("bot", "Lo siento, no entendí. Puedes pedirme 'Agendar Cita' o 'Necesito cotizar un proyecto'.");
+                        addMessage("bot", "Lo siento, no entendí. Puedo darte información sobre nuestros servicios de climatización y seguridad, o puedes decirme 'Agendar Cita' si ya sabes lo que necesitas.");
+                    }
+                    break;
+
+                case 'awaitingClimatizacionDetail':
+                    if (lowerCaseQuery.includes("9000")) {
+                        addMessage("bot", services.climatizacion["9000btu"]);
+                        appointmentData.requirement = "Climatización 9000 BTU";
+                    } else if (lowerCaseQuery.includes("12000")) {
+                        addMessage("bot", services.climatizacion["12000btu"]);
+                        appointmentData.requirement = "Climatización 12000 BTU";
+                    } else if (lowerCaseQuery.includes("18000")) {
+                        addMessage("bot", services.climatizacion["18000btu"]);
+                        appointmentData.requirement = "Climatización 18000 BTU";
+                    } else {
+                        addMessage("bot", "No entendí la capacidad de BTU. Por favor, especifica 9000, 12000 o 18000 BTU.");
+                        break;
+                    }
+                    addMessage("bot", "¿Deseas agendar una visita técnica para este servicio? (Sí/No)");
+                    chatState = 'awaitingSchedulingConfirmation';
+                    break;
+
+                case 'awaitingSeguridadDetail':
+                    if (lowerCaseQuery.includes("camaras") || lowerCaseQuery.includes("cámaras")) {
+                        addMessage("bot", services.seguridad.camaras);
+                        appointmentData.requirement = "Instalación de Cámaras de Seguridad";
+                    } else if (lowerCaseQuery.includes("alarmas")) {
+                        addMessage("bot", services.seguridad.alarmas);
+                        appointmentData.requirement = "Sistema de Alarmas";
+                    } else {
+                        addMessage("bot", "No entendí el tipo de servicio de seguridad. ¿Te interesan 'cámaras' o 'alarmas'?");
+                        break;
+                    }
+                    addMessage("bot", "¿Deseas agendar una visita técnica para este servicio? (Sí/No)");
+                    chatState = 'awaitingSchedulingConfirmation';
+                    break;
+
+                case 'awaitingSchedulingConfirmation':
+                    if (lowerCaseQuery.includes("sí") || lowerCaseQuery.includes("si")) {
+                        addMessage("bot", "¡Excelente! Para agendar la visita, necesito algunos datos. ¿Cuál es tu nombre completo?");
+                        chatState = 'awaitingName';
+                    } else if (lowerCaseQuery.includes("no")) {
+                        addMessage("bot", "Entendido. Si cambias de opinión o necesitas algo más, no dudes en consultarme.");
+                        chatState = 'initial';
+                    } else {
+                        addMessage("bot", "Por favor, responde con 'Sí' o 'No'.");
                     }
                     break;
 
                 case 'awaitingName':
                     appointmentData.name = query;
-                    addMessage("bot", `Gracias, ${appointmentData.name}. ¿Cuál es el requerimiento o servicio que necesitas? (ej. Instalación de 2 Split 12.000 BTU)`);
-                    chatState = 'awaitingRequirement';
-                    break;
-
-                case 'awaitingRequirement':
-                    appointmentData.requirement = query;
-                    addMessage("bot", "¿En qué dirección sería la visita técnica?");
+                    addMessage("bot", `Gracias, ${appointmentData.name}. ¿En qué dirección sería la visita técnica? (Calle, número, comuna)`);
                     chatState = 'awaitingAddress';
                     break;
 
                 case 'awaitingAddress':
                     appointmentData.address = query;
-                    addMessage("bot", "¿Qué día te gustaría agendar la visita? (ej. Lunes, Martes, etc.)");
-                    chatState = 'awaitingDay';
-                    break;
-
-                case 'awaitingDay':
-                    appointmentData.day = query;
-                    addMessage("bot", "Casi listo. ¿Cuál es tu número de teléfono de contacto?");
+                    addMessage("bot", "Perfecto. ¿A qué número de teléfono podemos contactarte?");
                     chatState = 'awaitingPhone';
                     break;
 
                 case 'awaitingPhone':
                     appointmentData.phone = query;
-                    addMessage("bot", "Y finalmente, ¿cuál es tu correo electrónico?");
+                    addMessage("bot", "Casi listo. ¿Cuál es tu correo electrónico para enviar la confirmación?");
                     chatState = 'awaitingEmail';
                     break;
 
@@ -627,9 +647,8 @@
                     appointmentData.email = query;
                     addMessage("bot", "¡Excelente! Hemos recopilado toda la información:\n\n" +
                         `Nombre: ${appointmentData.name}\n` +
-                        `Requerimiento: ${appointmentData.requirement}\n` +
+                        `Requerimiento: ${appointmentData.requirement || 'No especificado'}\n` +
                         `Dirección: ${appointmentData.address}\n` +
-                        `Día: ${appointmentData.day}\n` +
                         `Teléfono: ${appointmentData.phone}\n` +
                         `Correo: ${appointmentData.email}\n\n` +
                         "¿Confirmas que deseas agendar esta cita? (Sí/No)");
@@ -652,37 +671,10 @@
                     break;
 
                 default:
-                    addMessage("bot", "Lo siento, algo salió mal. Reiniciando la conversación.");
+                    addMessage("bot", "Lo siento, algo salió mal. Reiniciando la conversación. ¿En qué puedo ayudarte hoy?");
                     chatState = 'initial';
                     appointmentData = {};
                     break;
-            }
-        }
-
-        const suggestions = [
-            "Hace frío 🥶 ? Climaticemos tu hogar",
-            "Necesito cotizar un proyecto",
-            "Quiero agendar una visita técnica",
-            "Soporte técnico",
-            "Hablar con un asesor"
-        ];
-        let currentSuggestionIndex = 0;
-        const chatSuggestion = document.querySelector(".chat-suggestion");
-
-        function updateSuggestion() {
-            chatSuggestion.textContent = suggestions[currentSuggestionIndex];
-            chatSuggestion.classList.add("visible");
-            currentSuggestionIndex = (currentSuggestionIndex + 1) % suggestions.length;
-        }
-
-
-
-tate = 'initial';
-                    schedulingStep = 0;
-                    appointmentData = {};
-                } else {
-                    addMessage("bot", "Por favor, confirma con 'Sí' o 'No'.");
-                }
             }
         }
 
@@ -690,9 +682,8 @@ tate = 'initial';
             const templateParams = {
                 to_name: data.name,
                 to_email: data.email,
-                requirement: data.requirement,
+                requirement: data.requirement || 'No especificado',
                 address: data.address,
-                day: data.day,
                 phone: data.phone
             };
 
@@ -711,16 +702,18 @@ tate = 'initial';
                 });
         }
 
-
-
-        const chatWindow = document.querySelector(".chat-window");
+        const chatWindow = document.getElementById("chatWindow");
         const openChatBtn = document.getElementById("openChatBtn");
+        const closeChatBtn = document.getElementById("closeChatBtn");
         const chatInput = document.getElementById("chatInput");
-        const chatBody = document.querySelector(".chat-body");
+        const sendChatBtn = document.getElementById("sendChatBtn");
+        const chatBody = document.getElementById("chatBody");
+        const typingIndicator = document.getElementById("typingIndicator");
 
         function toggleChat() {
-            chatWindow.style.display = chatWindow.style.display === "flex" ? "none" : "flex";
-            if (chatWindow.style.display === "flex") {
+            const isChatOpen = chatWindow.style.display === "flex";
+            chatWindow.style.display = isChatOpen ? "none" : "flex";
+            if (!isChatOpen) {
                 openChatBtn.classList.remove("vibrate");
                 chatSuggestion.classList.remove("visible");
             } else {
@@ -729,36 +722,60 @@ tate = 'initial';
         }
 
         function addMessage(sender, text) {
-            const typingIndicator = document.getElementById("typingIndicator");
             if (sender === "bot") {
-                typingIndicator.style.display = "flex"; // Show typing indicator
+                typingIndicator.style.display = "flex";
                 setTimeout(() => {
-                    typingIndicator.style.display = "none"; // Hide typing indicator after delay
+                    typingIndicator.style.display = "none";
                     const messageDiv = document.createElement("div");
-                    messageDiv.classList.add("chat-message", sender);
+                    messageDiv.classList.add("message", "bot-msg");
                     messageDiv.textContent = text;
-                    chatBody.appendChild(messageDiv);
+                    chatBody.insertBefore(messageDiv, typingIndicator);
                     chatBody.scrollTop = chatBody.scrollHeight;
-                }, 1000); // 1 second delay
+                }, 1500); // 1.5 second delay for bot response
             } else {
                 const messageDiv = document.createElement("div");
-                messageDiv.classList.add("chat-message", sender);
+                messageDiv.classList.add("message", "user-msg");
                 messageDiv.textContent = text;
-                chatBody.appendChild(messageDiv);
+                chatBody.insertBefore(messageDiv, typingIndicator);
                 chatBody.scrollTop = chatBody.scrollHeight;
+            }
+        }
+
+        function handleUserMessage() {
+            const query = chatInput.value.trim();
+            if (query) {
+                addMessage("user", query);
+                chatInput.value = "";
+                handleChatInput(query);
             }
         }
 
         chatInput.addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
-                const query = chatInput.value;
-                addMessage("user", query);
-                chatInput.value = "";
-                handleChatInput(query);
+                handleUserMessage();
             }
         });
 
+        sendChatBtn.addEventListener("click", handleUserMessage);
         openChatBtn.addEventListener("click", toggleChat);
+        closeChatBtn.addEventListener("click", toggleChat);
+
+        const suggestions = [
+            "Hace frío 🥶 ? Climaticemos tu hogar",
+            "Necesito cotizar un proyecto",
+            "Quiero agendar una visita técnica",
+            "Soporte técnico",
+            "Hablar con un asesor"
+        ];
+        let currentSuggestionIndex = 0;
+        const chatSuggestion = document.getElementById("chatSuggestion");
+        const suggestionText = document.getElementById("suggestionText");
+
+        function updateSuggestion() {
+            suggestionText.textContent = suggestions[currentSuggestionIndex];
+            chatSuggestion.classList.add("visible");
+            currentSuggestionIndex = (currentSuggestionIndex + 1) % suggestions.length;
+        }
 
         setInterval(updateSuggestion, 5000);
         updateSuggestion();
