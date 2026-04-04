@@ -1,5 +1,7 @@
 (function() {
-   emailjs.init("CevPnugNMu1HpuE9N"); // Public Key
+   emailjs.init({
+     publicKey: "CevPnugNMu1HpuE9N",
+   });
 })();
 let stockData = [];
 const suggestions = [
