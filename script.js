@@ -1,7 +1,9 @@
+console.log("script.js is executing...");
 (function() {
    emailjs.init({
      publicKey: "CevPnugNMu1HpuE9N",
    });
+   console.log("EmailJS initialized");
 })();
 let stockData = [];
 const suggestions = [
