@@ -707,7 +707,7 @@
 
         loadStock();
 
-        function toggleChat() {
+        window.toggleChat = function() {
             const win = document.getElementById(\'chatWindow\');
             const openChatBtn = document.getElementById(\'openChatBtn\');
             win.style.display = win.style.display === \'flex\' ? \'none\' : \'flex\';
@@ -791,7 +791,7 @@
             }, 800);
         }
 
-        window.suggestions = [
+        let suggestions = [
             "Hace frío 🥶 ? Climaticemos tu hogar",
             "Hace calor 🥵 ? te instalamos un Split de aire",
             "Protegemos tus espacios de los amigos de lo ajeno 🥷🏻"
@@ -800,7 +800,7 @@
         let suggestionTextElement = null;
         let chatSuggestionElement = null;
 
-        window.updateSuggestion = function() {
+        function updateSuggestion() {
             if (!suggestionTextElement || !chatSuggestionElement) {
                 suggestionTextElement = document.getElementById("suggestionText");
                 chatSuggestionElement = document.getElementById("chatSuggestion");
@@ -825,7 +825,7 @@
 
             if (suggestionTextElement && chatSuggestionElement) {
                 updateSuggestion(); // Initial call to display the first suggestion
-                setInterval(window.updateSuggestion, 5000);
+                setInterval(updateSuggestion, 5000);
             } else {
                 console.error("Chatbot suggestion elements not found!");
             }
