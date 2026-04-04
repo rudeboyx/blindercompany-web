@@ -790,12 +790,12 @@
 
         document.getElementById('chatInput').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') sendMessage();
-        let suggestions = [
+           window.suggestions = [
             "Hace frío 🥶 ? Climaticemos tu hogar",
             "Hace calor 🥵 ? te instalamos un Split de aire",
             "Protegemos tus espacios de los amigos de lo ajeno 🥷🏻"
         ];
-        console.log("Suggestions array defined:", suggestions);
+        console.log("Suggestions array defined:", window.suggestions);
         let currentSuggestionIndex = 0;
         let suggestionTextElement;
         let chatSuggestionElement;
@@ -806,13 +806,13 @@
                 chatSuggestionElement = document.getElementById("chatSuggestion");
             }
             if (suggestionTextElement && chatSuggestionElement) {
-                console.log("Updating suggestion:", suggestions[currentSuggestionIndex]);
+                console.log("Updating suggestion:", window.suggestions[currentSuggestionIndex]);
                 console.log("chatSuggestionElement.classList:", chatSuggestionElement.classList);
-                suggestionTextElement.innerText = suggestions[currentSuggestionIndex];
+                suggestionTextElement.innerText = window.suggestions[currentSuggestionIndex];
                 chatSuggestionElement.classList.add("visible");
                 setTimeout(() => {
                     chatSuggestionElement.classList.remove("visible");
-                    currentSuggestionIndex = (currentSuggestionIndex + 1) % suggestions.length;
+                          currentSuggestionIndex = (currentSuggestionIndex + 1) % window.suggestions.length;;
                 }, 4000);
             }
         }
