@@ -507,7 +507,7 @@
 
         <script>
             (function() {
-               emailjs.init("CevPnugNMu1HpuE9N");
+               emailjs.init("CevPnugNMu1HpuE9N"); // Public Key
             })();
         let stockData = [];
         const suggestions = [
@@ -694,6 +694,7 @@
                 blinder_email: "blinderspa@gmail.com" // For Blinder Company notification
             };
 
+            console.log("Attempting to send email to client...");
             emailjs.send("service_vdy9bl5", "template_gjdask", templateParams)
                 .then(function(response) {
                     console.log("SUCCESS! Email to client", response.status, response.text);
