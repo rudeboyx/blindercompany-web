@@ -537,11 +537,13 @@
         function handleChatInput(query) {
             switch (schedulingStep) {
                 case 0:
-                    if (query.toLowerCase().includes("agendar cita")) {
+                    if (query.toLowerCase().includes("hola")) {
+                        addMessage("bot", "¡Hola! Soy el asistente de Blinder Company. ¿En qué puedo ayudarte hoy? Puedes decirme 'Agendar Cita' para empezar.");
+                    } else if (query.toLowerCase().includes("agendar cita") || query.toLowerCase().includes("aire") || query.toLowerCase().includes("climatización") || query.toLowerCase().includes("cotizar") || query.toLowerCase().includes("necesito")) {
                         addMessage("bot", "¡Claro! Para agendar una cita, necesito algunos datos. ¿Cuál es tu nombre?");
                         schedulingStep = 1;
                     } else {
-                        addMessage("bot", "Lo siento, no entendí. ¿Puedes ser más específico?");
+                        addMessage("bot", "Lo siento, no entendí tu solicitud. ¿Podrías intentar con 'Agendar Cita' o 'Necesito cotizar un proyecto'?");
                     }
                     break;
                 case 1:
