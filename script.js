@@ -93,16 +93,18 @@ function sendAppointmentEmail(data) {
         blinder_email: "blinderspa@gmail.com" // For Blinder Company notification
     };
 
-    console.log("Attempting to send email to client...");
-    emailjs.send("service_vdy9bl5", "template_gjdask", templateParams)
+            console.log("Attempting to send email to client with params:", templateParams);
+
+            emailjs.send("service_vdy9bl5", "template_gjdask", templateParams)
         .then(function(response) {
             console.log("SUCCESS! Email to client", response.status, response.text);
         }, function(error) {
             console.log("FAILED... Email to client", error);
         });
 
-    // Send notification to Blinder Company
-    emailjs.send("service_vdy9bl5", "template_blinder_notification", templateParams)
+            // Send notification to Blinder Company
+            console.log("Attempting to send email to Blinder Company with params:", templateParams);
+            emailjs.send("service_vdy9bl5", "template_blinder_notification", templateParams)
         .then(function(response) {
             console.log("SUCCESS! Email to Blinder Company", response.status, response.text);
         }, function(error) {
@@ -145,6 +147,7 @@ chatInput.addEventListener("keypress", function(event) {
 openChatBtn.addEventListener("click", toggleChat);
 
 document.addEventListener("DOMContentLoaded", function() {
+    console.log("DOMContentLoaded event fired!");
     document.getElementById("testEmailBtn").addEventListener("click", function() {
         console.log("Test EmailJS button clicked!");
         sendAppointmentEmail({
