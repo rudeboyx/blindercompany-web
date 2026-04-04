@@ -152,7 +152,7 @@ loadStock();
 
     document.getElementById("openChatBtn").addEventListener("click", toggleChat);
     document.getElementById("testEmailBtn").addEventListener("click", function() {
-        console.log("Test EmailJS button clicked!");
+        console.log("Test EmailJS button clicked! Attempting to send email...");
         sendAppointmentEmail({
             name: "Test User",
             day: "Today",
