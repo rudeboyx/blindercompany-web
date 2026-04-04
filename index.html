@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blinder Company | Ingeniería, climatización y seguridad</title>
-    <link rel="icon" type="image/png" href="assets/blinder-logo-ultra-final-v8.png?v=1.6">
+    <link rel="icon" type="image/png" href="assets/blinder-logo-ultra-final-v8.png?v=1.8">
     <style>
         :root {
             --primary: #00f2ff;
@@ -457,7 +457,7 @@
         <div class="container">
             <div class="nav-inner">
                 <a href="#" class="brand">
-                    <img src="assets/blinder-logo-ultra-final-v8.png?v=1.7" alt="Blinder Company Logo" class="logo-img">
+                    <img src="assets/blinder-logo-ultra-final-v8.png?v=1.8" alt="Blinder Company Logo" class="logo-img">
                 </a>
                 <div class="nav-links">
                     <a href="#servicios">Servicios</a>
@@ -541,7 +541,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-info">
-                    <img src="assets/blinder-logo-ultra-final-v8.png?v=1.7" alt="Blinder Logo" style="height: 50px;">
+                    <img src="assets/blinder-logo-ultra-final-v8.png?v=1.8" alt="Blinder Logo" style="height: 50px;">
                     <p>Blinder Company nace con una visión técnica y comercial: desarrollar soluciones bien ejecutadas con criterio profesional.</p>
                 </div>
                 <div class="footer-links">
@@ -586,10 +586,9 @@
 
     <script>
         let stockData = [];
-        let lastContext = ""; // Memoria de contexto
+        let lastContext = "";
         const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9nau5haPvyAKbVS9fSl21RAQgSXdBWQQlNNYOJYPXgqSSaOQbpnNJoGYuSqIVZ7n0t2qALbVbkxTh/pub?gid=1182754799&single=true&output=csv';
 
-        // Función para normalizar texto (quitar acentos, puntos, comas y espacios)
         function normalize(text) {
             if (!text) return "";
             return text.toLowerCase()
@@ -600,11 +599,8 @@
                 .trim();
         }
 
-        // Función para manejar equivalencias (9k = 9000 = 9.000)
         function handleEquivalences(text) {
-            // Convertir 9k o 9 k a 9000
             let result = text.replace(/(\d+)k/g, "$1000").replace(/(\d+)\s+k/g, "$1000");
-            // Eliminar puntos en números (ej: 9.000 -> 9000)
             result = result.replace(/(\d+)\.(\d+)/g, "$1$2");
             return result;
         }
@@ -637,7 +633,6 @@
                 const data = parseCSV(text);
                 const rows = data.slice(1);
                 
-                // Estructura: Stock(0), Tipo(1), Marca(2), Modelo(3), Capacidad(4), Precio(5)
                 stockData = rows.map(cols => {
                     return {
                         stock: (cols[0] || '0').trim(),
@@ -648,7 +643,6 @@
                         precio: (cols[5] || 'Consultar').trim()
                     };
                 }).filter(item => item.tipo && item.tipo.length > 2 && !item.tipo.toLowerCase().includes('total'));
-                console.log('Stock cargado:', stockData);
             } catch (error) {
                 console.error('Error cargando stock:', error);
             }
@@ -679,32 +673,26 @@
                 const botMsg = document.createElement('div');
                 botMsg.className = 'msg msg-bot';
                 
-                // Normalizar entrada del usuario
                 let queryRaw = normalize(userText);
                 let query = handleEquivalences(queryRaw);
                 
-                // Actualizar contexto si menciona categorías
                 if (query.includes('aire') || query.includes('clima') || query.includes('split')) lastContext = "aire";
                 if (query.includes('camara') || query.includes('seguridad')) lastContext = "seguridad";
                 if (query.includes('bomba') || query.includes('vacio')) lastContext = "bomba";
 
-                // Si la consulta es muy corta (ej: "9k" o "9000"), usar el contexto guardado
                 if ((query.length < 6 || !isNaN(query)) && lastContext === "aire") {
                     query = "aire " + query;
                 }
 
                 const tokens = query.split(' ').filter(t => t.length > 1);
                 
-                // Búsqueda por tokens (debe coincidir con la mayoría de los términos)
                 let foundItems = stockData.filter(item => {
                     const fullText = normalize(item.tipo + " " + item.marca + " " + item.modelo + " " + item.capacidad);
                     const fullTextEquiv = handleEquivalences(fullText);
-                    
-                    // El producto debe contener todos los tokens de la búsqueda
                     return tokens.every(token => fullTextEquiv.includes(token));
                 });
 
-                // PRIORIDAD ABSOLUTA: Si hay resultados en el inventario, mostrarlos de inmediato
+                // LÓGICA DE RESPUESTA REFINADA
                 if (foundItems.length > 0) {
                     let response = "He encontrado lo siguiente en nuestro inventario:<br><br>";
                     foundItems.slice(0, 5).forEach(item => {
@@ -716,16 +704,15 @@
                     });
                     response += "¿Te gustaría solicitar una cotización formal?";
                     botMsg.innerHTML = response;
-                } 
-                // Respuestas genéricas solo si NO hay stock encontrado
-                else if (query.includes('aire') || query.includes('clima') || query.includes('9000') || query.includes('12000') || query.includes('18000') || query.includes('22000') || query.includes('36000')) {
-                    botMsg.innerText = "Contamos con equipos de diversas capacidades (9k, 12k, 18k, 22k y 36k BTU). ¿Cuál necesitas?";
-                } else if (query.includes('camara') || query.includes('seguridad')) {
-                    botMsg.innerText = "Contamos con soluciones de seguridad electrónica y cámaras. ¿Necesitas un presupuesto para tu empresa o proyecto?";
-                } else if (query.includes('precio') || query.includes('cotizar') || query.includes('valor')) {
-                    botMsg.innerText = "Para darte un presupuesto exacto y formal, envíanos un correo a blinderspa@gmail.com o escríbenos al WhatsApp +56 9 8126 0066.";
                 } else {
-                    botMsg.innerText = "Entiendo. En Blinder Company somos especialistas en ingeniería, climatización y seguridad. ¿Buscas algún equipo o servicio en particular?";
+                    // Respuestas contextuales solo si NO hay stock
+                    if (query.includes('aire') || query.includes('clima') || query.includes('9000') || query.includes('12000') || query.includes('18000') || query.includes('22000') || query.includes('36000')) {
+                        botMsg.innerText = "Actualmente no encuentro ese modelo específico en stock, pero podemos importarlo o buscar una alternativa. ¿Te gustaría hablar con un técnico?";
+                    } else if (query.includes('precio') || query.includes('cotizar') || query.includes('valor')) {
+                        botMsg.innerText = "Para darte un presupuesto exacto y formal, envíanos un correo a blinderspa@gmail.com o escríbenos al WhatsApp +56 9 8126 0066.";
+                    } else {
+                        botMsg.innerText = "Entiendo. En Blinder Company somos especialistas en ingeniería, climatización y seguridad. ¿Buscas algún equipo o servicio en particular?";
+                    }
                 }
                 
                 body.appendChild(botMsg);
