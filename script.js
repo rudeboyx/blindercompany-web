@@ -1,3 +1,4 @@
+console.log("script.js loaded!");
 (function() {
    emailjs.init("CevPnugNMu1HpuE9N"); // Public Key
 })();
