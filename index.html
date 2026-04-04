@@ -584,6 +584,8 @@
 
     
 
+
+
     <script>
         let stockData = [];
         let lastContext = "";
@@ -651,13 +653,13 @@
 
         loadStock();
 
-        function toggleChat() {
-            const win = document.getElementById(\'chatWindow\');
-            win.style.display = win.style.display === \'flex\' ? \'none\' : \'flex\';
+        window.toggleChat = function() {
+            const win = document.getElementById('chatWindow');
+            win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
         }
 
-        document.getElementById(\'openChatBtn\').addEventListener(\'click\', toggleChat);
-        document.getElementById(\'closeChatBtn\').addEventListener(\'click\', toggleChat);
+        document.getElementById('openChatBtn').addEventListener('click', toggleChat);
+        document.getElementById('closeChatBtn').addEventListener('click', toggleChat);
 
         function sendMessage() {
             const input = document.getElementById('chatInput');
@@ -680,19 +682,19 @@
                 let processedQuery = normalize(userText);
                 processedQuery = handleEquivalences(processedQuery);
 
-                const stopWords = [\'de\', \'el\', \'la\', \'un\', \'una\', \'con\', \'para\', \'en\', \'busco\', \'buscas\', \'necesito\', \'necesitas\', \'quiero\', \'quieres\', \'tienes\', \'hay\'];
-                let tokens = processedQuery.split(\' \').filter(t => t.length > 1 && !stopWords.includes(t));
+                const stopWords = ['de', 'el', 'la', 'un', 'una', 'con', 'para', 'en', 'busco', 'buscas', 'necesito', 'necesitas', 'quiero', 'quieres', 'tienes', 'hay'];
+                let tokens = processedQuery.split(' ').filter(t => t.length > 1 && !stopWords.includes(t));
 
-                let queryForContext = tokens.join(\' \');
+                let queryForContext = tokens.join(' ');
 
-                if (queryForContext.includes(\'aire\') || queryForContext.includes(\'clima\') || queryForContext.includes(\'split\')) lastContext = "aire";
-                if (queryForContext.includes(\'camara\') || queryForContext.includes(\'seguridad\')) lastContext = "seguridad";
-                if (queryForContext.includes(\'bomba\') || queryForContext.includes(\'vacio\')) lastContext = "bomba";
+                if (queryForContext.includes('aire') || queryForContext.includes('clima') || queryForContext.includes('split')) lastContext = "aire";
+                if (queryForContext.includes('camara') || queryForContext.includes('seguridad')) lastContext = "seguridad";
+                if (queryForContext.includes('bomba') || queryForContext.includes('vacio')) lastContext = "bomba";
 
                 // Si la query es solo un número y el contexto es aire, añadir "aire" para la búsqueda
                 if ((queryForContext.length < 6 || !isNaN(queryForContext)) && lastContext === "aire") {
-                    if (!queryForContext.includes(\'aire\')) {
-                        tokens.unshift(\'aire\');
+                    if (!queryForContext.includes('aire')) {
+                        tokens.unshift('aire');
                     }
                 }
 
@@ -737,5 +739,7 @@
 
 </body>
 </html>
+
+    <a href="https://wa.me/56981260066" class="wsp-float" title="WhatsApp">✆</a>
 
     <a href="https://wa.me/56981260066" class="wsp-float" title="WhatsApp">✆</a>
