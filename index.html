@@ -280,31 +280,46 @@
 
         .chat-suggestion {
             position: fixed;
-            bottom: 110px;
+            bottom: 115px;
             right: 30px;
-            background-color: #fefefe;
-            color: #333;
-            padding: 12px 18px;
-            border-radius: 18px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            max-width: 220px;
-            text-align: center;
+            background-color: #fff5f6;
+            color: #111111;
+            padding: 12px 16px;
+            border-radius: 14px;
+            box-shadow: rgba(0, 0, 0, 0.18) 0px 12px 28px 0px;
+            max-width: 280px;
+            text-align: left;
             font-size: 0.95rem;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease;
             z-index: 1999;
             transform: translateY(10px);
+            border: 2px solid #e90829;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .chat-suggestion::after {
             content: "";
             position: absolute;
-            bottom: -10px;
-            right: 25px;
-            border-width: 10px;
+            bottom: -12px;
+            right: 20px;
+            border-width: 6px;
             border-style: solid;
-            border-color: #fefefe transparent transparent transparent;
+            border-color: #e90829 transparent transparent transparent;
+        }
+
+        .chat-suggestion::before {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            right: 20px;
+            border-width: 6px;
+            border-style: solid;
+            border-color: #fff5f6 transparent transparent transparent;
+            z-index: 1;
         }
 
         .chat-suggestion.visible {
@@ -768,7 +783,7 @@
         const chatSuggestionElement = document.getElementById('chatSuggestion');
 
         function updateSuggestion() {
-            suggestionTextElement.innerText = suggestions[currentSuggestionIndex];
+            suggestionTextElement.innerHTML = `<span style="background: #e90829; color: white; padding: 4px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-right: 8px;">JUL 17</span>` + suggestions[currentSuggestionIndex];
             chatSuggestionElement.classList.add('visible');
             setTimeout(() => {
                 chatSuggestionElement.classList.remove('visible');
