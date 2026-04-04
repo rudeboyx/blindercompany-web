@@ -293,6 +293,43 @@
             transform: scale(1.1) rotate(10deg);
         }
 
+        .chat-suggestion {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background-color: #fefefe;
+            color: #333;
+            padding: 10px 15px;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            max-width: 200px;
+            text-align: center;
+            font-size: 0.9em;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 1999;
+        }
+
+        .chat-suggestion::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            right: 25px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: #fefefe transparent transparent transparent;
+        }
+
+        .chat-suggestion.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #suggestionText {
+            font-weight: bold;
+        }
+
         .chat-window {
             width: 350px;
             height: 500px;
@@ -579,7 +616,10 @@
                 <button class="chat-send" onclick="sendMessage()">➤</button>
             </div>
         </div>
-        <div class="chat-btn" id="openChatBtn">🤖</div>
+        <div class="chat-suggestion" id="chatSuggestion">
+                <span id="suggestionText"></span>
+            </div>
+            <div class="chat-btn" id="openChatBtn">🤖</div>
     </div>
 
     
@@ -732,10 +772,34 @@
             }, 800);
         }
 
-        document.getElementById('chatInput').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') sendMessage();
+        document.getElementById(\'chatInput\').addEventListener(\'keypress\', function (e) {
+            if (e.key === \'Enter\') sendMessage();
         });
-    </script>
+
+        const suggestions = [
+            "Hace frío 🥶 ? Climaticemos tu hogar",
+            "Hace calor 🥵 ? te instalamos un Split de aire",
+            "Protegemos tus espacios de los amigos de lo ajeno 🥷🏻"
+        ];
+        let currentSuggestionIndex = 0;
+        const suggestionTextElement = document.getElementById(\'suggestionText\');
+        const chatSuggestionElement = document.getElementById(\'chatSuggestion\');
+
+        function updateSuggestion() {
+            suggestionTextElement.innerText = suggestions[currentSuggestionIndex];
+            chatSuggestionElement.classList.add(\'visible\');
+            setTimeout(() => {
+                chatSuggestionElement.classList.remove(\'visible\');
+                currentSuggestionIndex = (currentSuggestionIndex + 1) % suggestions.length;
+            }, 4000); // Muestra cada sugerencia por 4 segundos
+        }
+
+        // Iniciar el ciclo de sugerencias después de un breve retraso
+        setTimeout(() => {
+            updateSuggestion();
+            setInterval(updateSuggestion, 5000); // Cambia cada 5 segundos (4s visible + 1s oculto)
+        }, 2000); // Espera 2 segundos antes de la primera sugerencia
+/script>
 
 </body>
 </html>
