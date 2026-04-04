@@ -71,9 +71,16 @@
         }
 
         .logo-img {
-            height: 45px;
+            height: 65px; /* Aumentado de 45px a 65px */
             width: auto;
             object-fit: contain;
+            margin-top: 5px;
+            margin-bottom: -15px; /* Hace que sobresalga por debajo */
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3)); /* Sombra para resaltar */
+            transition: transform 0.3s ease;
+        }
+        .logo-img:hover {
+            transform: scale(1.05);
         }
 
         .nav-links {
