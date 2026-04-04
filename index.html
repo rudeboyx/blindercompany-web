@@ -683,6 +683,7 @@
         }
 
         function sendAppointmentEmail(data) {
+            console.log("sendAppointmentEmail function called.");
             const templateParams = {
                 user_name: data.name,
                 appointment_day: data.day,
