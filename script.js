@@ -146,7 +146,7 @@ chatInput.addEventListener("keypress", function(event) {
 
 openChatBtn.addEventListener("click", toggleChat);
 
-loadStock();
+
     setInterval(updateSuggestion, 5000);
     updateSuggestion();
 
