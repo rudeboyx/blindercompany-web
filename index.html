@@ -724,14 +724,6 @@
             document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("testEmailBtn").addEventListener("click", function() {
                 console.log("Test EmailJS button clicked!");
-                sendAppointmentEmail({
-                    name: "Carlos Prueba",
-                    requirement: "2 Split 12.000 BTU",
-                    address: "Calle Falsa 123",
-                    day: "Lunes",
-                    phone: "56998765432",
-                    email: "carlos.prueba@example.com"
-                });
             });         loadStock();
             setInterval(updateSuggestion, 5000);
             updateSuggestion();
