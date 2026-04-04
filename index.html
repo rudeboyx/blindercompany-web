@@ -509,6 +509,8 @@
             "Protegemos tus espacios de los amigos de lo ajeno 🥷🏻"
         ];
         let currentSuggestionIndex = 0;
+        let schedulingStep = 0; // 0: not scheduling, 1-6: collecting info
+        let appointmentData = {};
 
         async function loadStock() {
             try {
@@ -574,6 +576,16 @@
             addMessage('user', input.value);
             input.value = '';
 
+            if (schedulingStep > 0) {
+                handleScheduling(query);
+                return;
+            }
+
+            if (query.includes('agendar') || query.includes('cita')) {
+                startScheduling();
+                return;
+            }
+
             setTimeout(() => {
                 const stopWords = ['busco', 'necesito', 'quiero', 'tienen', 'hay', 'un', 'una', 'de', 'el', 'la', 'en', 'para'];
                 const cleanQuery = query.split(' ').filter(word => !stopWords.includes(word)).join(' ');
@@ -593,7 +605,74 @@
                     response = 'Actualmente no encuentro ese modelo específico en stock, pero podemos importarlo o buscar una alternativa. ¿Te gustaría hablar con un técnico?';
                 }
                 addMessage('bot', response);
+
+                // Check if the bot response includes a prompt to schedule
+                if (response.includes('¿Te gustaría hablar con un técnico?') || response.includes('¿Te gustaría solicitar una cotización formal?')) {
+                    setTimeout(() => {
+                        addMessage('bot', 'También puedo ayudarte a agendar una cita si lo deseas.');
+                        // Offer to start scheduling
+                        // For now, we'll assume user will type 'agendar' to start
+                    }, 1000);
+                }
             }, 800);
+        }
+
+        function startScheduling() {
+            schedulingStep = 1;
+            appointmentData = {};
+            addMessage('bot', '¡Claro! Para agendar una cita, necesito algunos datos. ¿Cuál es tu nombre y apellido?');
+        }
+
+        function handleScheduling(query) {
+            switch (schedulingStep) {
+                case 1:
+                    appointmentData.name = query;
+                    addMessage('bot', 'Gracias, ' + query + '. ¿Cuál es el requerimiento? (Ej: 1 Split 9.000)');
+                    schedulingStep = 2;
+                    break;
+                case 2:
+                    appointmentData.requirement = query;
+                    addMessage('bot', 'Entendido. ¿Cuál es la dirección completa para la cita?');
+                    schedulingStep = 3;
+                    break;
+                case 3:
+                    appointmentData.address = query;
+                    addMessage('bot', 'Perfecto. ¿Qué día te gustaría agendar la cita?');
+                    schedulingStep = 4;
+                    break;
+                case 4:
+                    appointmentData.day = query;
+                    addMessage('bot', 'Casi listo. ¿Cuál es tu número de teléfono de contacto?');
+                    schedulingStep = 5;
+                    break;
+                case 5:
+                    appointmentData.phone = query;
+                    addMessage('bot', 'Y finalmente, ¿cuál es tu correo electrónico?');
+                    schedulingStep = 6;
+                    break;
+                case 6:
+                    appointmentData.email = query;
+                    addMessage('bot', '¡Excelente! Hemos recopilado toda la información:\n\n' +
+                                       `Nombre: ${appointmentData.name}\n` +
+                                       `Requerimiento: ${appointmentData.requirement}\n` +
+                                       `Dirección: ${appointmentData.address}\n` +
+                                       `Día: ${appointmentData.day}\n` +
+                                       `Teléfono: ${appointmentData.phone}\n` +
+                                       `Correo: ${appointmentData.email}\n\n` +
+                                       '¿Confirmas que deseas agendar esta cita? (Sí/No)');
+                    schedulingStep = 7; // Confirmation step
+                    break;
+                case 7:
+                    if (query.toLowerCase() === 'sí' || query.toLowerCase() === 'si') {
+                        addMessage('bot', '¡Cita agendada con éxito! Recibirás un correo de confirmación pronto.');
+                        // TODO: Send email here
+                        schedulingStep = 0; // Reset scheduling
+                    } else {
+                        addMessage('bot', 'Entendido. Si necesitas agendar más tarde, solo dímelo.');
+                        schedulingStep = 0; // Reset scheduling
+                    }
+                    break;
+            }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
