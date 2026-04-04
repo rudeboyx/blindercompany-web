@@ -802,11 +802,11 @@
         const chatSuggestionElement = document.getElementById('chatSuggestion');
 
         function updateSuggestion() {
-            suggestionTextElement.innerText = suggestions[currentSuggestionIndex];
+            suggestionTextElement.innerText = window.suggestions[currentSuggestionIndex];
             chatSuggestionElement.classList.add('visible');
             setTimeout(() => {
                 chatSuggestionElement.classList.remove('visible');
-                currentSuggestionIndex = (currentSuggestionIndex + 1) % suggestions.length;
+                currentSuggestionIndex = (currentSuggestionIndex + 1) % window.suggestions.length;
             }, 4000);
         }
 
