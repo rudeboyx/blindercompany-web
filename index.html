@@ -586,9 +586,28 @@
 
     <script>
         let stockData = [];
+        let lastContext = ""; // Memoria de contexto
         const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9nau5haPvyAKbVS9fSl21RAQgSXdBWQQlNNYOJYPXgqSSaOQbpnNJoGYuSqIVZ7n0t2qALbVbkxTh/pub?gid=1182754799&single=true&output=csv';
 
-        // Función para parsear CSV correctamente manejando comas dentro de comillas
+        // Función para normalizar texto (quitar acentos, puntos, comas y espacios)
+        function normalize(text) {
+            if (!text) return "";
+            return text.toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/[.,]/g, "")
+                .replace(/\s+/g, " ")
+                .trim();
+        }
+
+        // Función para manejar equivalencias (9k = 9000)
+        function handleEquivalences(text) {
+            return text
+                .replace(/(\d+)k/g, "$1000")
+                .replace(/(\d+)\s+k/g, "$1000")
+                .replace(/(\d+)000/g, "$1000"); // Normalizar a formato sin puntos
+        }
+
         function parseCSV(text) {
             const lines = text.split('\n');
             return lines.map(line => {
@@ -610,13 +629,12 @@
             });
         }
 
-        // Cargar stock al iniciar
         async function loadStock() {
             try {
                 const response = await fetch(csvUrl + '&t=' + new Date().getTime());
                 const text = await response.text();
                 const data = parseCSV(text);
-                const rows = data.slice(1); // Omitir cabecera
+                const rows = data.slice(1);
                 
                 // Estructura: Stock(0), Tipo(1), Marca(2), Modelo(3), Capacidad(4), Precio(5)
                 stockData = rows.map(cols => {
@@ -660,43 +678,33 @@
                 const botMsg = document.createElement('div');
                 botMsg.className = 'msg msg-bot';
                 
-                const query = userText.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                const queryClean = query.replace(/[^a-z0-9]/g, "");
+                // Normalizar entrada del usuario
+                let query = normalize(userText);
+                query = handleEquivalences(query);
                 
-                // Lógica de búsqueda avanzada
-                let foundItems = [];
-                
-                // 1. Buscar por tipo de producto (Categoría)
-                const categoryMatch = stockData.filter(item => {
-                    const tipo = item.tipo.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                    return tipo.includes(query) || query.includes(tipo);
-                });
+                // Actualizar contexto si menciona categorías
+                if (query.includes('aire') || query.includes('clima') || query.includes('split')) lastContext = "aire";
+                if (query.includes('camara') || query.includes('seguridad')) lastContext = "seguridad";
+                if (query.includes('bomba') || query.includes('vacio')) lastContext = "bomba";
 
-                if (categoryMatch.length > 0) {
-                    // Si hay coincidencia de categoría, filtrar por especificaciones (BTU, Marca, Modelo)
-                    foundItems = categoryMatch.filter(item => {
-                        const fullText = (item.marca + " " + item.modelo + " " + item.capacidad).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                        const fullTextClean = fullText.replace(/[^a-z0-9]/g, "");
-                        
-                        // Si el usuario mencionó algo específico (ej: "9000"), filtrar por eso
-                        const specs = query.match(/\d+/g); // Buscar números en la consulta
-                        if (specs) {
-                            return specs.some(s => fullText.includes(s) || fullTextClean.includes(s));
-                        }
-                        return true; // Si no hay specs, mostrar todos los de la categoría
-                    });
-                } else {
-                    // 2. Si no hay coincidencia de categoría, buscar en todo el texto del producto
-                    foundItems = stockData.filter(item => {
-                        const fullText = (item.tipo + " " + item.marca + " " + item.modelo + " " + item.capacidad).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                        const fullTextClean = fullText.replace(/[^a-z0-9]/g, "");
-                        return fullText.includes(query) || query.includes(fullText) || (queryClean.length > 3 && fullTextClean.includes(queryClean));
-                    });
+                // Si la consulta es muy corta (ej: "9k"), usar el contexto guardado
+                if (query.length < 6 && lastContext === "aire") {
+                    query = "aire " + query;
                 }
+
+                const tokens = query.split(' ').filter(t => t.length > 1);
+                
+                // Búsqueda por tokens (debe coincidir con la mayoría de los términos)
+                let foundItems = stockData.filter(item => {
+                    const fullText = normalize(item.tipo + " " + item.marca + " " + item.modelo + " " + item.capacidad);
+                    const fullTextEquiv = handleEquivalences(fullText);
+                    
+                    // El producto debe contener todos los tokens de la búsqueda
+                    return tokens.every(token => fullTextEquiv.includes(token));
+                });
 
                 if (foundItems.length > 0) {
                     let response = "He encontrado lo siguiente en nuestro inventario:<br><br>";
-                    // Limitar a los 5 resultados más relevantes para no saturar
                     foundItems.slice(0, 5).forEach(item => {
                         response += `📦 <b>${item.marca} ${item.modelo}</b><br>`;
                         response += `• Tipo: ${item.tipo}<br>`;
@@ -704,10 +712,9 @@
                         response += `• Stock: ${item.stock} unidades<br>`;
                         response += `• Valor: ${item.precio}<br><br>`;
                     });
-                    if (foundItems.length > 5) response += "<i>Hay más modelos disponibles. ¿Buscas alguna capacidad específica?</i><br><br>";
                     response += "¿Te gustaría solicitar una cotización formal?";
                     botMsg.innerHTML = response;
-                } else if (query.includes('clima') || query.includes('aire') || query.includes('btu')) {
+                } else if (query.includes('aire') || query.includes('clima') || query.includes('9000') || query.includes('12000')) {
                     botMsg.innerText = "Somos especialistas en climatización. Tenemos equipos Split Hisense de 9k, 12k, 18k, 22k y 36k BTU. ¿Cuál necesitas?";
                 } else if (query.includes('camara') || query.includes('seguridad')) {
                     botMsg.innerText = "Contamos con soluciones de seguridad electrónica y cámaras. ¿Necesitas un presupuesto para tu empresa o proyecto?";
