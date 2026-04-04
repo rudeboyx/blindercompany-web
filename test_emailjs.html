@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test EmailJS</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("CevPnugNMu1HpuE9N"); // Public Key
+        })();
+
+        function sendAppointmentEmail(data) {
+            const templateParams = {
+                user_name: data.name,
+                appointment_day: data.day,
+                appointment_requirement: data.requirement,
+                appointment_address: data.address,
+                appointment_phone: data.phone,
+                appointment_email: data.email,
+                to_email: data.email, // For client confirmation
+                blinder_email: "blinderspa@gmail.com" // For Blinder Company notification
+            };
+
+            console.log("Attempting to send email to client with params:", templateParams);
+
+            emailjs.send("service_vdy9bl5", "template_gjdask", templateParams)
+                .then(function(response) {
+                    console.log("SUCCESS! Email to client", response.status, response.text);
+                }, function(error) {
+                    console.log("FAILED... Email to client", error);
+                });
+
+            // Send notification to Blinder Company
+            console.log("Attempting to send email to Blinder Company with params:", templateParams);
+            emailjs.send("service_vdy9bl5", "template_blinder_notification", templateParams)
+                .then(function(response) {
+                    console.log("SUCCESS! Email to Blinder Company", response.status, response.text);
+                }, function(error) {
+                    console.log("FAILED... Email to Blinder Company", error);
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("testEmailBtn").addEventListener("click", function() {
+                console.log("Test EmailJS button clicked! Attempting to send email...");
+                sendAppointmentEmail({
+                    name: "Test User",
+                    day: "Today",
+                    requirement: "Test Requirement",
+                    address: "Test Address 123",
+                    phone: "123456789",
+                    email: "test@example.com"
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>EmailJS Test Page</h1>
+    <button id="testEmailBtn">Test EmailJS</button>
+    <p>Check the console for results.</p>
+</body>
+</html>
