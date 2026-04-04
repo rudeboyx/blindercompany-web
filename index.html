@@ -796,26 +796,25 @@
             "Protegemos tus espacios de los amigos de lo ajeno 🥷🏻"
         ];
         let currentSuggestionIndex = 0;
-        let suggestionTextElement;
-        let chatSuggestionElement;
+        let suggestionTextElement = null;
+        let chatSuggestionElement = null;
 
         function updateSuggestion() {
-            suggestionTextElement.innerText = suggestions[currentSuggestionIndex];
-            chatSuggestionElement.classList.add("visible");
-            setTimeout(() => {
-                chatSuggestionElement.classList.remove("visible");
-                currentSuggestionIndex = (currentSuggestionIndex + 1) % suggestions.length;
-            }, 4000);
+            if (!suggestionTextElement || !chatSuggestionElement) {
+                suggestionTextElement = document.getElementById("suggestionText");
+                chatSuggestionElement = document.getElementById("chatSuggestion");
+            }
+            if (suggestionTextElement && chatSuggestionElement) {
+                suggestionTextElement.innerText = suggestions[currentSuggestionIndex];
+                chatSuggestionElement.classList.add("visible");
+                setTimeout(() => {
+                    chatSuggestionElement.classList.remove("visible");
+                    currentSuggestionIndex = (currentSuggestionIndex + 1) % suggestions.length;
+                }, 4000);
+            }
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            suggestionTextElement = document.getElementById("suggestionText");
-            chatSuggestionElement = document.getElementById("chatSuggestion");
-
-            if (suggestionTextElement && chatSuggestionElement) {
-                updateSuggestion();
-                setInterval(updateSuggestion, 5000);
-            } else {
-                console.error("Chatbot suggestion elements not found!");
-            }
+            updateSuggestion(); // Initial call to display the first suggestion
+            setInterval(updateSuggestion, 5000);
         });
