@@ -569,7 +569,7 @@
         <div class="chat-window" id="chatWindow">
             <div class="chat-header">
                 <h4>🤖 Asistente Blinder IA</h4>
-                <span style="cursor:pointer" onclick="toggleChat()">✕</span>
+                <span style="cursor:pointer" id="closeChatBtn">✕</span>
             </div>
             <div class="chat-body" id="chatBody">
                 <div class="msg msg-bot">¡Hola! Soy el asistente de Blinder Company. ¿En qué puedo ayudarte hoy?</div>
@@ -579,7 +579,7 @@
                 <button class="chat-send" onclick="sendMessage()">➤</button>
             </div>
         </div>
-        <div class="chat-btn" onclick="toggleChat()">🤖</div>
+        <div class="chat-btn" id="openChatBtn">🤖</div>
     </div>
 
     <a href="https://wa.me/56981260066" class="wsp-float" title="WhatsApp">✆</a>
@@ -652,9 +652,12 @@
         loadStock();
 
         function toggleChat() {
-            const win = document.getElementById('chatWindow');
-            win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
+            const win = document.getElementById(\'chatWindow\');
+            win.style.display = win.style.display === \'flex\' ? \'none\' : \'flex\';
         }
+
+        document.getElementById(\'openChatBtn\').addEventListener(\'click\', toggleChat);
+        document.getElementById(\'closeChatBtn\').addEventListener(\'click\', toggleChat);
 
         function sendMessage() {
             const input = document.getElementById('chatInput');
