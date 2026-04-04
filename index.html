@@ -706,8 +706,6 @@
 
         loadStock();
 
-        loadStock();
-
         window.toggleChat = function() {
             const win = document.getElementById(\'chatWindow\');
             const openChatBtn = document.getElementById(\'openChatBtn\');
@@ -719,8 +717,10 @@
             }
         }
 
-        document.getElementById(\'openChatBtn\').addEventListener(\'click\', toggleChat);
-        document.getElementById(\'closeChatBtn\').addEventListener(\'click\', toggleChat);
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById(\'openChatBtn\').addEventListener(\'click\', window.toggleChat);
+            document.getElementById(\'closeChatBtn\').addEventListener(\'click\', window.toggleChat);
+        });
 
         function sendMessage() {
             const input = document.getElementById(\'chatInput\');
