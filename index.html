@@ -299,25 +299,26 @@
             position: fixed;
             bottom: 115px;
             right: 30px;
-            background-color: #fff5f6;
-            color: #111111;
-            padding: 12px 20px;
-            border-radius: 14px;
-            box-shadow: rgba(0, 0, 0, 0.18) 0px 12px 28px 0px;
-            max-width: 320px;
+            background-color: #ffffff;
+            color: #1a1a1a;
+            padding: 14px 24px;
+            border-radius: 50px; /* Más redondeado y alargado */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 400px;
             width: max-content;
             text-align: left;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            font-weight: 500;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1999;
-            transform: translateY(10px);
-            border: 2px solid #e90829;
+            transform: translateY(20px);
+            border: 1px solid rgba(233, 8, 41, 0.2); /* Borde más sutil */
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-family: inherit;
+            gap: 12px;
+            font-family: 'Inter', sans-serif;
         }
 
         .chat-suggestion.visible {
@@ -329,28 +330,14 @@
         .chat-suggestion::after {
             content: "";
             position: absolute;
-            bottom: -12px;
-            right: 20px;
-            border-width: 6px;
-            border-style: solid;
-            border-color: #e90829 transparent transparent transparent;
-        }
-
-        .chat-suggestion::before {
-            content: "";
-            position: absolute;
             bottom: -8px;
-            right: 20px;
-            border-width: 6px;
-            border-style: solid;
-            border-color: #fff5f6 transparent transparent transparent;
-            z-index: 1;
-        }
-
-        .chat-suggestion.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
+            right: 40px;
+            width: 15px;
+            height: 15px;
+            background: white;
+            transform: rotate(45deg);
+            border-right: 1px solid rgba(233, 8, 41, 0.2);
+            border-bottom: 1px solid rgba(233, 8, 41, 0.2);
         }
 
         #suggestionText {
