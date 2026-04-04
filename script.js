@@ -146,8 +146,11 @@ chatInput.addEventListener("keypress", function(event) {
 
 openChatBtn.addEventListener("click", toggleChat);
 
-document.addEventListener("DOMContentLoaded", function() {
-    console.log("DOMContentLoaded event fired!");
+loadStock();
+    setInterval(updateSuggestion, 5000);
+    updateSuggestion();
+
+    document.getElementById("openChatBtn").addEventListener("click", toggleChat);
     document.getElementById("testEmailBtn").addEventListener("click", function() {
         console.log("Test EmailJS button clicked!");
         sendAppointmentEmail({
@@ -158,9 +161,4 @@ document.addEventListener("DOMContentLoaded", function() {
             phone: "123456789",
             email: "test@example.com"
         });
-    });         loadStock();
-    setInterval(updateSuggestion, 5000);
-    updateSuggestion();
-
-    document.getElementById("openChatBtn").addEventListener("click", toggleChat);
-});
+    });
