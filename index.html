@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blinder Company | Ingeniería, climatización y seguridad</title>
-    <link rel="icon" type="image/png" href="assets/blinder-logo-ultra-final-v8.png?v=1.4">
+    <link rel="icon" type="image/png" href="assets/blinder-logo-ultra-final-v8.png?v=1.5">
     <style>
         :root {
             --primary: #00f2ff;
@@ -457,7 +457,7 @@
         <div class="container">
             <div class="nav-inner">
                 <a href="#" class="brand">
-                    <img src="assets/blinder-logo-ultra-final-v8.png?v=1.4" alt="Blinder Company Logo" class="logo-img">
+                    <img src="assets/blinder-logo-ultra-final-v8.png?v=1.5" alt="Blinder Company Logo" class="logo-img">
                 </a>
                 <div class="nav-links">
                     <a href="#servicios">Servicios</a>
@@ -541,7 +541,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-info">
-                    <img src="assets/blinder-logo-ultra-final-v8.png?v=1.4" alt="Blinder Logo" style="height: 50px;">
+                    <img src="assets/blinder-logo-ultra-final-v8.png?v=1.5" alt="Blinder Logo" style="height: 50px;">
                     <p>Blinder Company nace con una visión técnica y comercial: desarrollar soluciones bien ejecutadas con criterio profesional.</p>
                 </div>
                 <div class="footer-links">
@@ -588,43 +588,20 @@
         let stockData = [];
         const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9nau5haPvyAKbVS9fSl21RAQgSXdBWQQlNNYOJYPXgqSSaOQbpnNJoGYuSqIVZ7n0t2qALbVbkxTh/pub?output=csv';
 
-        // Función para parsear CSV correctamente manejando comas dentro de comillas
-        function parseCSV(text) {
-            const lines = text.split('\n');
-            return lines.map(line => {
-                const result = [];
-                let current = '';
-                let inQuotes = false;
-                for (let i = 0; i < line.length; i++) {
-                    const char = line[i];
-                    if (char === '"') inQuotes = !inQuotes;
-                    else if (char === ',' && !inQuotes) {
-                        result.push(current.trim());
-                        current = '';
-                    } else {
-                        current += char;
-                    }
-                }
-                result.push(current.trim());
-                return result;
-            });
-        }
-
         // Cargar stock al iniciar
         async function loadStock() {
             try {
                 const response = await fetch(csvUrl + '&t=' + new Date().getTime());
                 const text = await response.text();
-                const data = parseCSV(text);
-                const rows = data.slice(1); // Omitir cabecera
-                stockData = rows.map(cols => {
+                const lines = text.split('\n');
+                stockData = lines.slice(1).map(line => {
+                    const cols = line.split(',');
                     return {
-                        nombre: cols[0] || '',
-                        cantidad: cols[1] || '0',
-                        valor: cols[2] || 'Consultar',
-                        status: cols[3] || ''
+                        nombre: (cols[0] || '').trim(),
+                        cantidad: (cols[1] || '0').trim(),
+                        valor: (cols[2] || 'Consultar').trim()
                     };
-                }).filter(item => item.nombre && item.nombre.length > 2 && !item.nombre.includes('TOTAL'));
+                }).filter(item => item.nombre && item.nombre.length > 2 && !item.nombre.toLowerCase().includes('total'));
                 console.log('Stock cargado:', stockData);
             } catch (error) {
                 console.error('Error cargando stock:', error);
@@ -657,17 +634,13 @@
                 botMsg.className = 'msg msg-bot';
                 
                 const query = userText.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                const queryClean = query.replace(/[^a-z0-9]/g, "");
                 
-                // Buscar en el stock con lógica flexible
+                // Buscar en el stock
                 const foundItems = stockData.filter(item => {
                     const nombre = item.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                    const nombreClean = nombre.replace(/[^a-z0-9]/g, "");
-                    
-                    // Coincidencia parcial o palabras clave
                     return nombre.includes(query) || query.includes(nombre) || 
-                           (queryClean.length > 3 && nombreClean.includes(queryClean)) ||
-                           (query.includes('aire') && nombre.includes('equipo'));
+                           (query.includes('aire') && nombre.includes('equipo')) ||
+                           (query.includes('bomba') && nombre.includes('bomba'));
                 });
 
                 if (foundItems.length > 0) {
