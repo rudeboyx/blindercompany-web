@@ -761,39 +761,23 @@
         </div>
     </footer>
 
-    <!-- Chatbot Widget -->
-    <div class="chatbot-container" id="chatbot">
-        <div class="chatbot-header">
-            <div class="chatbot-avatar">🐻</div>
-            <div class="chatbot-title">Asistente Blinder IA</div>
-        </div>
-        <div class="chatbot-body">
-            ¡Hola! Soy el asistente virtual de Blinder Company. ¿En qué puedo ayudarte hoy?
-        </div>
-        <div class="chatbot-options">
-            <div class="chat-opt" onclick="window.location.href='https://wa.me/56981260066?text=Hola, necesito una cotización para climatización'">Cotizar Climatización</div>
-            <div class="chat-opt" onclick="window.location.href='https://wa.me/56981260066?text=Hola, necesito información sobre seguridad electrónica'">Seguridad Electrónica</div>
-            <div class="chat-opt" onclick="window.location.href='https://wa.me/56981260066?text=Hola, necesito soporte técnico'">Soporte Técnico</div>
-        </div>
-    </div>
-
-    <a href="javascript:void(0)" class="wsp-float" title="Chat con IA" onclick="toggleChat()">
-        <span id="chat-icon">🤖</span>
-    </a>
-
-    <script>
-        function toggleChat() {
-            const chat = document.getElementById('chatbot');
-            const icon = document.getElementById('chat-icon');
-            if (chat.style.display === 'flex') {
-                chat.style.display = 'none';
-                icon.innerText = '🤖';
-            } else {
-                chat.style.display = 'flex';
-                icon.innerText = '✕';
-            }
-        }
+    <!-- Tawk.to Chat Widget -->
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/67f00030066996200d433777/1im123456'; // Widget ID de ejemplo para Blinder
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
     </script>
+    <!-- End of Tawk.to Script -->
+
+    <a href="https://wa.me/56981260066" class="wsp-float" title="WhatsApp">
+        ✆
+    </a>
 
 </body>
 </html>
