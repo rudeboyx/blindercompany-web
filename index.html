@@ -704,6 +704,7 @@
                     return tokens.every(token => fullTextEquiv.includes(token));
                 });
 
+                // PRIORIDAD ABSOLUTA: Si hay resultados en el inventario, mostrarlos de inmediato
                 if (foundItems.length > 0) {
                     let response = "He encontrado lo siguiente en nuestro inventario:<br><br>";
                     foundItems.slice(0, 5).forEach(item => {
@@ -715,8 +716,10 @@
                     });
                     response += "¿Te gustaría solicitar una cotización formal?";
                     botMsg.innerHTML = response;
-                } else if (query.includes('aire') || query.includes('clima') || query.includes('9000') || query.includes('12000') || query.includes('18000') || query.includes('22000') || query.includes('36000')) {
-                    botMsg.innerText = "Somos especialistas en climatización. Tenemos equipos Split Hisense de 9k, 12k, 18k, 22k y 36k BTU. ¿Cuál necesitas?";
+                } 
+                // Respuestas genéricas solo si NO hay stock encontrado
+                else if (query.includes('aire') || query.includes('clima') || query.includes('9000') || query.includes('12000') || query.includes('18000') || query.includes('22000') || query.includes('36000')) {
+                    botMsg.innerText = "Somos especialistas en climatización. Contamos con equipos de diversas capacidades (9k, 12k, 18k, 22k y 36k BTU). ¿Cuál necesitas?";
                 } else if (query.includes('camara') || query.includes('seguridad')) {
                     botMsg.innerText = "Contamos con soluciones de seguridad electrónica y cámaras. ¿Necesitas un presupuesto para tu empresa o proyecto?";
                 } else if (query.includes('precio') || query.includes('cotizar') || query.includes('valor')) {
