@@ -515,8 +515,93 @@
             });
         })();
 
-        let schedulingStep = 0;
+
+
+
+
+        let chatState = 'initial';
         let appointmentData = {};
+
+        function handleChatInput(query) {
+            const lowerCaseQuery = query.toLowerCase();
+
+            switch (chatState) {
+                case 'initial':
+                    if (lowerCaseQuery.includes("hola") || lowerCaseQuery.includes("hi") || lowerCaseQuery.includes("saludos")) {
+                        addMessage("bot", "¡Hola! Soy el asistente de Blinder Company. ¿En qué puedo ayudarte hoy?\n\nSi deseas agendar una cita, puedes decirme 'Agendar Cita'.");
+                    } else if (lowerCaseQuery.includes("agendar") || lowerCaseQuery.includes("cita") || lowerCaseQuery.includes("aire") || lowerCaseQuery.includes("climatización") || lowerCaseQuery.includes("cotizar") || lowerCaseQuery.includes("necesito") || lowerCaseQuery.includes("servicio")) {
+                        addMessage("bot", "¡Claro! Para agendar una cita, necesito algunos datos. ¿Cuál es tu nombre?");
+                        chatState = 'awaitingName';
+                    } else {
+                        addMessage("bot", "Lo siento, no entendí. Puedes pedirme 'Agendar Cita' o 'Necesito cotizar un proyecto'.");
+                    }
+                    break;
+
+                case 'awaitingName':
+                    appointmentData.name = query;
+                    addMessage("bot", `Gracias, ${appointmentData.name}. ¿Cuál es el requerimiento o servicio que necesitas? (ej. Instalación de 2 Split 12.000 BTU)`);
+                    chatState = 'awaitingRequirement';
+                    break;
+
+                case 'awaitingRequirement':
+                    appointmentData.requirement = query;
+                    addMessage("bot", "¿En qué dirección sería la visita técnica?");
+                    chatState = 'awaitingAddress';
+                    break;
+
+                case 'awaitingAddress':
+                    appointmentData.address = query;
+                    addMessage("bot", "¿Qué día te gustaría agendar la visita? (ej. Lunes, Martes, etc.)");
+                    chatState = 'awaitingDay';
+                    break;
+
+                case 'awaitingDay':
+                    appointmentData.day = query;
+                    addMessage("bot", "Casi listo. ¿Cuál es tu número de teléfono de contacto?");
+                    chatState = 'awaitingPhone';
+                    break;
+
+                case 'awaitingPhone':
+                    appointmentData.phone = query;
+                    addMessage("bot", "Y finalmente, ¿cuál es tu correo electrónico?");
+                    chatState = 'awaitingEmail';
+                    break;
+
+                case 'awaitingEmail':
+                    appointmentData.email = query;
+                    addMessage("bot", "¡Excelente! Hemos recopilado toda la información:\n\n" +
+                        `Nombre: ${appointmentData.name}\n` +
+                        `Requerimiento: ${appointmentData.requirement}\n` +
+                        `Dirección: ${appointmentData.address}\n` +
+                        `Día: ${appointmentData.day}\n` +
+                        `Teléfono: ${appointmentData.phone}\n` +
+                        `Correo: ${appointmentData.email}\n\n` +
+                        "¿Confirmas que deseas agendar esta cita? (Sí/No)");
+                    chatState = 'awaitingConfirmation';
+                    break;
+
+                case 'awaitingConfirmation':
+                    if (lowerCaseQuery.includes("sí") || lowerCaseQuery.includes("si")) {
+                        addMessage("bot", "¡Cita agendada con éxito! Recibirás un correo de confirmación pronto.");
+                        sendAppointmentEmail(appointmentData);
+                        chatState = 'initial';
+                        appointmentData = {};
+                    } else if (lowerCaseQuery.includes("no")) {
+                        addMessage("bot", "Entendido. Si necesitas agendar más tarde, solo dímelo.");
+                        chatState = 'initial';
+                        appointmentData = {};
+                    } else {
+                        addMessage("bot", "Por favor, confirma con 'Sí' o 'No'.");
+                    }
+                    break;
+
+                default:
+                    addMessage("bot", "Lo siento, algo salió mal. Reiniciando la conversación.");
+                    chatState = 'initial';
+                    appointmentData = {};
+                    break;
+            }
+        }
 
         const suggestions = [
             "Hace frío 🥶 ? Climaticemos tu hogar",
@@ -534,73 +619,92 @@
             currentSuggestionIndex = (currentSuggestionIndex + 1) % suggestions.length;
         }
 
+
+
+        let chatState = 'initial';
+        let schedulingStep = 0;
+        let appointmentData = {};
+
         function handleChatInput(query) {
-            switch (schedulingStep) {
-                case 0:
-                    const lowerCaseQuery = query.toLowerCase();
-                    if (lowerCaseQuery.includes("agendar cita") || lowerCaseQuery.includes("cita") || lowerCaseQuery.includes("aire") || lowerCaseQuery.includes("climatización") || lowerCaseQuery.includes("cotizar") || lowerCaseQuery.includes("necesito") || lowerCaseQuery.includes("servicio")) {
-                        addMessage("bot", "¡Claro! Para agendar una cita, necesito algunos datos. ¿Cuál es tu nombre?");
-                        schedulingStep = 1;
-                    } else if (lowerCaseQuery.includes("hola") || lowerCaseQuery.includes("hi") || lowerCaseQuery.includes("saludos")) {
-                        addMessage("bot", "¡Hola! ¿En qué puedo ayudarte hoy? Si deseas agendar una cita, por favor, escribe 'Agendar Cita'.");
-                    } else {
-                        addMessage("bot", "Lo siento, no entendí tu solicitud. Puedes intentar con 'Agendar Cita' o 'Necesito cotizar un proyecto'.");
-                    }
-                    break;
-                case 1:
-                    appointmentData.name = query;
-                    addMessage("bot", `Gracias, ${appointmentData.name}. ¿Cuál es el requerimiento o servicio que necesitas? (ej. Instalación de 2 Split 12.000 BTU)`);
-                    schedulingStep = 2;
-                    break;
-                case 2:
-                    appointmentData.requirement = query;
-                    addMessage("bot", "¿En qué dirección sería la visita técnica?");
-                    schedulingStep = 3;
-                    break;
-                case 3:
-                    appointmentData.address = query;
-                    addMessage("bot", "¿Qué día te gustaría agendar la visita? (ej. Lunes, Martes, etc.)");
-                    schedulingStep = 4;
-                    break;
-                case 4:
-                    appointmentData.day = query;
-                    addMessage("bot", "Casi listo. ¿Cuál es tu número de teléfono de contacto?");
-                    schedulingStep = 5;
-                    break;
-                case 5:
-                    appointmentData.phone = query;
-                    addMessage("bot", "Y finalmente, ¿cuál es tu correo electrónico?");
-                    schedulingStep = 6;
-                    break;
-                case 6:
-                    appointmentData.email = query;
-                    addMessage("bot", "¡Excelente! Hemos recopilado toda la información:\n\n" +
-                        `Nombre: ${appointmentData.name}\n` +
-                        `Requerimiento: ${appointmentData.requirement}\n` +
-                        `Dirección: ${appointmentData.address}\n` +
-                        `Día: ${appointmentData.day}\n` +
-                        `Teléfono: ${appointmentData.phone}\n` +
-                        `Correo: ${appointmentData.email}\n\n` +
-                        "¿Confirmas que deseas agendar esta cita? (Sí/No)");
-                    schedulingStep = 7;
-                    break;
-                case 7:
-                    if (query.toLowerCase().includes("sí") || query.toLowerCase().includes("si")) {
-                        addMessage("bot", "¡Cita agendada con éxito! Recibirás un correo de confirmación pronto.");
-                        sendAppointmentEmail(appointmentData);
-                        schedulingStep = 0;
-                        appointmentData = {}; // Reset appointment data
-                    } else {
-                        addMessage("bot", "Entendido. Si necesitas agendar más tarde, solo dímelo.");
-                        schedulingStep = 0;
-                        appointmentData = {}; // Reset appointment data
-                    }
-                    break;
-                default:
-                    addMessage("bot", "Lo siento, no entendí tu solicitud. ¿Podrías intentar con \'Agendar Cita\' o \'Necesito cotizar un proyecto\'?");
-                    break;
+            const lowerCaseQuery = query.toLowerCase();
+
+            if (chatState === 'initial') {
+                if (lowerCaseQuery.includes("hola") || lowerCaseQuery.includes("hi") || lowerCaseQuery.includes("saludos")) {
+                    addMessage("bot", "¡Hola! Soy el asistente de Blinder Company. ¿En qué puedo ayudarte hoy?");
+                } else if (lowerCaseQuery.includes("agendar") || lowerCaseQuery.includes("cita") || lowerCaseQuery.includes("aire") || lowerCaseQuery.includes("climatización") || lowerCaseQuery.includes("cotizar") || lowerCaseQuery.includes("necesito") || lowerCaseQuery.includes("servicio")) {
+                    addMessage("bot", "¡Claro! Para agendar una cita, necesito algunos datos. ¿Cuál es tu nombre?");
+                    chatState = 'inAppointmentFlow';
+                    schedulingStep = 1;
+                } else {
+                    addMessage("bot", "Lo siento, no entendí. Puedes pedirme 'agendar una cita' o 'cotizar un proyecto'.");
+                }
+            } else if (chatState === 'inAppointmentFlow') {
+                switch (schedulingStep) {
+                    case 1:
+                        appointmentData.name = query;
+                        addMessage("bot", `Gracias, ${appointmentData.name}. ¿Cuál es el requerimiento o servicio que necesitas? (ej. Instalación de 2 Split 12.000 BTU)`);
+                        schedulingStep = 2;
+                        break;
+                    case 2:
+                        appointmentData.requirement = query;
+                        addMessage("bot", "¿En qué dirección sería la visita técnica?");
+                        schedulingStep = 3;
+                        break;
+                    case 3:
+                        appointmentData.address = query;
+                        addMessage("bot", "¿Qué día te gustaría agendar la visita? (ej. Lunes, Martes, etc.)");
+                        schedulingStep = 4;
+                        break;
+                    case 4:
+                        appointmentData.day = query;
+                        addMessage("bot", "Casi listo. ¿Cuál es tu número de teléfono de contacto?");
+                        schedulingStep = 5;
+                        break;
+                    case 5:
+                        appointmentData.phone = query;
+                        addMessage("bot", "Y finalmente, ¿cuál es tu correo electrónico?");
+                        schedulingStep = 6;
+                        break;
+                    case 6:
+                        appointmentData.email = query;
+                        addMessage("bot", "¡Excelente! Hemos recopilado toda la información:\n\n" +
+                            `Nombre: ${appointmentData.name}\n` +
+                            `Requerimiento: ${appointmentData.requirement}\n` +
+                            `Dirección: ${appointmentData.address}\n` +
+                            `Día: ${appointmentData.day}\n` +
+                            `Teléfono: ${appointmentData.phone}\n` +
+                            `Correo: ${appointmentData.email}\n\n` +
+                            "¿Confirmas que deseas agendar esta cita? (Sí/No)");
+                        chatState = 'awaitingConfirmation';
+                        break;
+                }
+            } else if (chatState === 'awaitingConfirmation') {
+                if (lowerCaseQuery.includes("sí") || lowerCaseQuery.includes("si")) {
+                    addMessage("bot", "¡Cita agendada con éxito! Recibirás un correo de confirmación pronto.");
+                    sendAppointmentEmail(appointmentData);
+                    chatState = 'initial';
+                    schedulingStep = 0;
+                    appointmentData = {};
+                } else if (lowerCaseQuery.includes("no")) {
+                    addMessage("bot", "Entendido. Si necesitas agendar más tarde, solo dímelo.");
+                    chatState = 'initial';
+                    schedulingStep = 0;
+                    appointmentData = {};
+                } else {
+                    addMessage("bot", "Por favor, confirma con 'Sí' o 'No'.");
+                }
             }
         }
+
+        function sendAppointmentEmail(data) {
+            const templateParams = {
+                to_name: data.name,
+                to_email: data.email,
+                requirement: data.requirement,
+                address: data.address,
+                day: data.day,
+                phone: data.phone
+            };
 
             emailjs.send("service_vdy9bl5", "template_gjdask", templateParams)
                 .then(function(response) {
@@ -616,6 +720,8 @@
                     console.log("FAILED... Email to Blinder Company", error);
                 });
         }
+
+
 
         const chatWindow = document.querySelector(".chat-window");
         const openChatBtn = document.getElementById("openChatBtn");
