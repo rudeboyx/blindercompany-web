@@ -674,20 +674,25 @@
                 const botMsg = document.createElement('div');
                 botMsg.className = 'msg msg-bot';
                 
-                let queryRaw = normalize(userText);
-                let query = handleEquivalences(queryRaw);
-                
-                if (query.includes('aire') || query.includes('clima') || query.includes('split')) lastContext = "aire";
-                if (query.includes('camara') || query.includes('seguridad')) lastContext = "seguridad";
-                if (query.includes('bomba') || query.includes('vacio')) lastContext = "bomba";
+                let processedQuery = normalize(userText);
+                processedQuery = handleEquivalences(processedQuery);
 
-                if ((query.length < 6 || !isNaN(query)) && lastContext === "aire") {
-                    query = "aire " + query;
+                const stopWords = [\'de\', \'el\', \'la\', \'un\', \'una\', \'con\', \'para\', \'en\', \'busco\', \'buscas\', \'necesito\', \'necesitas\', \'quiero\', \'quieres\', \'tienes\', \'hay\'];
+                let tokens = processedQuery.split(\' \').filter(t => t.length > 1 && !stopWords.includes(t));
+
+                let queryForContext = tokens.join(\' \');
+
+                if (queryForContext.includes(\'aire\') || queryForContext.includes(\'clima\') || queryForContext.includes(\'split\')) lastContext = "aire";
+                if (queryForContext.includes(\'camara\') || queryForContext.includes(\'seguridad\')) lastContext = "seguridad";
+                if (queryForContext.includes(\'bomba\') || queryForContext.includes(\'vacio\')) lastContext = "bomba";
+
+                // Si la query es solo un número y el contexto es aire, añadir "aire" para la búsqueda
+                if ((queryForContext.length < 6 || !isNaN(queryForContext)) && lastContext === "aire") {
+                    if (!queryForContext.includes(\'aire\')) {
+                        tokens.unshift(\'aire\');
+                    }
                 }
 
-                const stopWords = ['de', 'el', 'la', 'un', 'una', 'con', 'para', 'en', 'busco', 'buscas', 'necesito', 'necesitas', 'quiero', 'quieres', 'tienes', 'hay'];
-                const tokens = query.split(' ').filter(t => t.length > 1 && !stopWords.includes(t));
-                
                 let foundItems = stockData.filter(item => {
                     const fullText = normalize(item.tipo + " " + item.marca + " " + item.modelo + " " + item.capacidad);
                     const fullTextEquiv = handleEquivalences(fullText);
@@ -708,9 +713,9 @@
                     botMsg.innerHTML = response;
                 } else {
                     // Respuestas contextuales solo si NO hay stock
-                    if (query.includes('aire') || query.includes('clima') || query.includes('9000') || query.includes('12000') || query.includes('18000') || query.includes('22000') || query.includes('36000')) {
+                    if (queryForContext.includes('aire') || queryForContext.includes('clima') || queryForContext.includes('9000') || queryForContext.includes('12000') || queryForContext.includes('18000') || queryForContext.includes('22000') || queryForContext.includes('36000')) {
                         botMsg.innerText = "Actualmente no encuentro ese modelo específico en stock, pero podemos importarlo o buscar una alternativa. ¿Te gustaría hablar con un técnico?";
-                    } else if (query.includes('precio') || query.includes('cotizar') || query.includes('valor')) {
+                    } else if (queryForContext.includes('precio') || queryForContext.includes('cotizar') || queryForContext.includes('valor')) {
                         botMsg.innerText = "Para darte un presupuesto exacto y formal, envíanos un correo a blinderspa@gmail.com o escríbenos al WhatsApp +56 9 8126 0066.";
                     } else {
                         botMsg.innerText = "Entiendo. En Blinder Company somos especialistas en ingeniería, climatización y seguridad. ¿Buscas algún equipo o servicio en particular?";
@@ -728,4 +733,7 @@
     </script>
 
 </body>
+</html>
+</html>
+</html>
 </html>
