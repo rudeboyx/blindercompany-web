@@ -788,19 +788,14 @@
             }, 800);
         }
 
-        document.getElementById('chatInput').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') sendMessage();
-        });
-
         let suggestions = [
             "Hace frío 🥶 ? Climaticemos tu hogar",
             "Hace calor 🥵 ? te instalamos un Split de aire",
             "Protegemos tus espacios de los amigos de lo ajeno 🥷🏻"
         ];
-
         let currentSuggestionIndex = 0;
-        let suggestionTextElement;
-        let chatSuggestionElement;
+        let suggestionTextElement = null;
+        let chatSuggestionElement = null;
 
         function updateSuggestion() {
             if (!suggestionTextElement || !chatSuggestionElement) {
@@ -808,8 +803,6 @@
                 chatSuggestionElement = document.getElementById("chatSuggestion");
             }
             if (suggestionTextElement && chatSuggestionElement) {
-
-
                 suggestionTextElement.innerText = suggestions[currentSuggestionIndex];
                 chatSuggestionElement.classList.add("visible");
                 setTimeout(() => {
@@ -820,13 +813,10 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            suggestionTextElement = document.getElementById("suggestionText");
-            chatSuggestionElement = document.getElementById("chatSuggestion");
+            document.getElementById("chatInput").addEventListener("keypress", function (e) {
+                if (e.key === "Enter") sendMessage();
+            });
 
-            if (suggestionTextElement && chatSuggestionElement) {
-                updateSuggestion();
-                setInterval(updateSuggestion, 5000);
-            } else {
-                console.error("Chatbot suggestion elements not found!");
-            }
+            updateSuggestion(); // Initial call to display the first suggestion
+            setInterval(updateSuggestion, 5000);
         });
