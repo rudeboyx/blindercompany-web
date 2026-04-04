@@ -147,6 +147,14 @@ openChatBtn.addEventListener("click", toggleChat);
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("testEmailBtn").addEventListener("click", function() {
         console.log("Test EmailJS button clicked!");
+        sendAppointmentEmail({
+            name: "Test User",
+            day: "Today",
+            requirement: "Test Requirement",
+            address: "Test Address 123",
+            phone: "123456789",
+            email: "test@example.com"
+        });
     });         loadStock();
     setInterval(updateSuggestion, 5000);
     updateSuggestion();
