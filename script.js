@@ -152,7 +152,10 @@ openChatBtn.addEventListener("click", toggleChat);
     updateSuggestion();
 
     document.getElementById("openChatBtn").addEventListener("click", toggleChat);
-    document.getElementById("testEmailBtn").addEventListener("click", function() {
+    const testEmailBtn = document.getElementById("testEmailBtn");
+    console.log("testEmailBtn element:", testEmailBtn);
+    if (testEmailBtn) {
+        testEmailBtn.addEventListener("click", function() {
         console.log("Test EmailJS button clicked! Attempting to send email...");
         console.log("Inside testEmailBtn click listener.");
         sendAppointmentEmail({
