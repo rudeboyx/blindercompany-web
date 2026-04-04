@@ -706,6 +706,8 @@
 
         loadStock();
 
+        loadStock();
+
         window.toggleChat = function() {
             const win = document.getElementById(\'chatWindow\');
             const openChatBtn = document.getElementById(\'openChatBtn\');
@@ -717,42 +719,42 @@
             }
         }
 
-        document.getElementById('openChatBtn').addEventListener('click', toggleChat);
-        document.getElementById('closeChatBtn').addEventListener('click', toggleChat);
+        document.getElementById(\'openChatBtn\').addEventListener(\'click\', toggleChat);
+        document.getElementById(\'closeChatBtn\').addEventListener(\'click\', toggleChat);
 
         function sendMessage() {
-            const input = document.getElementById('chatInput');
-            const body = document.getElementById('chatBody');
+            const input = document.getElementById(\'chatInput\');
+            const body = document.getElementById(\'chatBody\');
             if (!input.value.trim()) return;
 
             const userText = input.value.trim();
-            const userMsg = document.createElement('div');
-            userMsg.className = 'msg msg-user';
+            const userMsg = document.createElement(\'div\');
+            userMsg.className = \'msg msg-user\';
             userMsg.innerText = userText;
             body.appendChild(userMsg);
 
-            input.value = '';
+            input.value = \'\';
             body.scrollTop = body.scrollHeight;
 
             setTimeout(() => {
-                const botMsg = document.createElement('div');
-                botMsg.className = 'msg msg-bot';
+                const botMsg = document.createElement(\'div\');
+                botMsg.className = \'msg msg-bot\';
                 
                 let processedQuery = normalize(userText);
                 processedQuery = handleEquivalences(processedQuery);
 
-                const stopWords = ['de', 'el', 'la', 'un', 'una', 'con', 'para', 'en', 'busco', 'buscas', 'necesito', 'necesitas', 'quiero', 'quieres', 'tienes', 'hay'];
-                let tokens = processedQuery.split(' ').filter(t => t.length > 1 && !stopWords.includes(t));
+                const stopWords = [\'de\', \'el\', \'la\', \'un\', \'una\', \'con\', \'para\', \'en\', \'busco\', \'buscas\', \'necesito\', \'necesitas\', \'quiero\', \'quieres\', \'tienes\', \'hay\'];
+                let tokens = processedQuery.split(\' \').filter(t => t.length > 1 && !stopWords.includes(t));
 
-                let queryForContext = tokens.join(' ');
+                let queryForContext = tokens.join(\' \');
 
-                if (queryForContext.includes('aire') || queryForContext.includes('clima') || queryForContext.includes('split')) lastContext = "aire";
-                if (queryForContext.includes('camara') || queryForContext.includes('seguridad')) lastContext = "seguridad";
-                if (queryForContext.includes('bomba') || queryForContext.includes('vacio')) lastContext = "bomba";
+                if (queryForContext.includes(\'aire\') || queryForContext.includes(\'clima\') || queryForContext.includes(\'split\')) lastContext = "aire";
+                if (queryForContext.includes(\'camara\') || queryForContext.includes(\'seguridad\')) lastContext = "seguridad";
+                if (queryForContext.includes(\'bomba\') || queryForContext.includes(\'vacio\')) lastContext = "bomba";
 
                 if ((queryForContext.length < 6 || !isNaN(queryForContext)) && lastContext === "aire") {
-                    if (!queryForContext.includes('aire')) {
-                        tokens.unshift('aire');
+                    if (!queryForContext.includes(\'aire\')) {
+                        tokens.unshift(\'aire\');
                     }
                 }
 
@@ -774,9 +776,9 @@
                     response += "¿Te gustaría solicitar una cotización formal?";
                     botMsg.innerHTML = response;
                 } else {
-                    if (queryForContext.includes('aire') || queryForContext.includes('clima') || queryForContext.includes('9000') || queryForContext.includes('12000') || queryForContext.includes('18000') || queryForContext.includes('22000') || queryForContext.includes('36000')) {
+                    if (queryForContext.includes(\'aire\') || queryForContext.includes(\'clima\') || queryForContext.includes(\'9000\') || queryForContext.includes(\'12000\') || queryForContext.includes(\'18000\') || queryForContext.includes(\'22000\') || queryForContext.includes(\'36000\')) {
                         botMsg.innerText = "Actualmente no encuentro ese modelo específico en stock, pero podemos importarlo o buscar una alternativa. ¿Te gustaría hablar con un técnico?";
-                    } else if (queryForContext.includes('precio') || queryForContext.includes('cotizar') || queryForContext.includes('valor')) {
+                    } else if (queryForContext.includes(\'precio\') || queryForContext.includes(\'cotizar\') || queryForContext.includes(\'valor\')) {
                         botMsg.innerText = "Para darte un presupuesto exacto y formal, envíanos un correo a blinderspa@gmail.com o escríbenos al WhatsApp +56 9 8126 0066.";
                     } else {
                         botMsg.innerText = "Entiendo. En Blinder Company somos especialistas en ingeniería, climatización y seguridad. ¿Buscas algún equipo o servicio en particular?";
@@ -817,6 +819,13 @@
                 if (e.key === "Enter") sendMessage();
             });
 
-            updateSuggestion(); // Initial call to display the first suggestion
-            setInterval(updateSuggestion, 5000);
+            suggestionTextElement = document.getElementById("suggestionText");
+            chatSuggestionElement = document.getElementById("chatSuggestion");
+
+            if (suggestionTextElement && chatSuggestionElement) {
+                updateSuggestion(); // Initial call to display the first suggestion
+                setInterval(updateSuggestion, 5000);
+            } else {
+                console.error("Chatbot suggestion elements not found!");
+            }
         });
