@@ -707,7 +707,7 @@
 
         loadStock();
 
-        window.toggleChat = function() {
+        function toggleChat() {
             const win = document.getElementById(\'chatWindow\');
             const openChatBtn = document.getElementById(\'openChatBtn\');
             win.style.display = win.style.display === \'flex\' ? \'none\' : \'flex\';
@@ -719,8 +719,8 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById(\'openChatBtn\').addEventListener(\'click\', window.toggleChat);
-            document.getElementById(\'closeChatBtn\').addEventListener(\'click\', window.toggleChat);
+            document.getElementById(\'openChatBtn\').addEventListener(\'click\', toggleChat);
+            document.getElementById(\'closeChatBtn\').addEventListener(\'click\', toggleChat);
         });
 
         function sendMessage() {
@@ -791,7 +791,7 @@
             }, 800);
         }
 
-        let suggestions = [
+        window.suggestions = [
             "Hace frío 🥶 ? Climaticemos tu hogar",
             "Hace calor 🥵 ? te instalamos un Split de aire",
             "Protegemos tus espacios de los amigos de lo ajeno 🥷🏻"
@@ -800,7 +800,7 @@
         let suggestionTextElement = null;
         let chatSuggestionElement = null;
 
-        function updateSuggestion() {
+        window.updateSuggestion = function() {
             if (!suggestionTextElement || !chatSuggestionElement) {
                 suggestionTextElement = document.getElementById("suggestionText");
                 chatSuggestionElement = document.getElementById("chatSuggestion");
@@ -825,7 +825,7 @@
 
             if (suggestionTextElement && chatSuggestionElement) {
                 updateSuggestion(); // Initial call to display the first suggestion
-                setInterval(updateSuggestion, 5000);
+                setInterval(window.updateSuggestion, 5000);
             } else {
                 console.error("Chatbot suggestion elements not found!");
             }
