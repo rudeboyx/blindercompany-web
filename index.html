@@ -684,7 +684,8 @@
                     query = "aire " + query;
                 }
 
-                const tokens = query.split(' ').filter(t => t.length > 1);
+                const stopWords = ['de', 'el', 'la', 'un', 'una', 'con', 'para', 'en'];
+                const tokens = query.split(' ').filter(t => t.length > 1 && !stopWords.includes(t));
                 
                 let foundItems = stockData.filter(item => {
                     const fullText = normalize(item.tipo + " " + item.marca + " " + item.modelo + " " + item.capacidad);
