@@ -1,4 +1,3 @@
-console.log("script.js loaded!");
 (function() {
    emailjs.init("CevPnugNMu1HpuE9N"); // Public Key
 })();
@@ -152,18 +151,4 @@ openChatBtn.addEventListener("click", toggleChat);
     updateSuggestion();
 
     document.getElementById("openChatBtn").addEventListener("click", toggleChat);
-    const testEmailBtn = document.getElementById("testEmailBtn");
-    console.log("testEmailBtn element:", testEmailBtn);
-    if (testEmailBtn) {
-        testEmailBtn.addEventListener("click", function() {
-        console.log("Test EmailJS button clicked! Attempting to send email...");
-        console.log("Inside testEmailBtn click listener.");
-        sendAppointmentEmail({
-            name: "Test User",
-            day: "Today",
-            requirement: "Test Requirement",
-            address: "Test Address 123",
-            phone: "123456789",
-            email: "test@example.com"
-        });
-    });
+
