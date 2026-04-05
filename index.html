@@ -333,12 +333,22 @@
             background: #001529;
             border-radius: 20px;
             margin-bottom: 20px;
-            display: none;
+            display: flex;
             flex-direction: column;
             overflow: hidden;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             border: 1px solid rgba(255,255,255,0.1);
             z-index: 10002;
+            visibility: hidden;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.3s ease;
+        }
+        
+        .chat-window.active {
+            visibility: visible;
+            opacity: 1;
+            transform: scale(1);
         }
 
         .chat-header {
@@ -523,7 +533,7 @@
             </div>
         </div>
 
-        <div id="openChatBtn" class="chat-btn vibrate">
+        <div id="openChatBtn" class="chat-btn vibrate" onclick="toggleChat()" style="cursor: pointer;">
             🤖
         </div>
     </div>
@@ -535,6 +545,24 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
     <script>
+        // Función toggleChat accesible globalmente
+        function toggleChat() {
+            const chatWindow = document.getElementById('chatWindow');
+            const openChatBtn = document.getElementById('openChatBtn');
+            const chatSuggestion = document.getElementById('chatSuggestion');
+            
+            const isChatOpen = chatWindow.classList.contains('active');
+            if (isChatOpen) {
+                chatWindow.classList.remove('active');
+                chatSuggestion.classList.add('visible');
+                openChatBtn.classList.add('vibrate');
+            } else {
+                chatWindow.classList.add('active');
+                openChatBtn.classList.remove('vibrate');
+                chatSuggestion.classList.remove('visible');
+            }
+        }
+        
         // Esperar a que EmailJS esté completamente cargado
         function initializeEmailJS() {
             if (typeof emailjs !== 'undefined') {
@@ -867,16 +895,7 @@
         const chatBody = document.getElementById("chatBody");
         const typingIndicator = document.getElementById("typingIndicator");
 
-        function toggleChat() {
-            const isChatOpen = chatWindow.style.display === "flex";
-            chatWindow.style.display = isChatOpen ? "none" : "flex";
-            if (!isChatOpen) {
-                openChatBtn.classList.remove("vibrate");
-                chatSuggestion.classList.remove("visible");
-            } else {
-                chatSuggestion.classList.add("visible");
-            }
-        }
+
 
         function addMessage(sender, text) {
             if (sender === "bot") {
