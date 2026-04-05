@@ -547,8 +547,8 @@
         const services = {
             "climatizacion": {
                 "9000btu": "El equipo de 9.000 BTU Hisense Hi Vida es ideal para espacios de hasta 15 m². Tiene un valor de $449.990 CLP con instalación incluida.",
-                "12000btu": "El equipo de 12.000 BTU es perfecto para espacios de hasta 25 m². Su valor es de $450.000 CLP con instalación incluida.",
-                "18000btu": "El equipo de 18.000 BTU es recomendado para espacios de hasta 40 m². El precio es de $650.000 CLP con instalación incluida.",
+                "12000btu": "El equipo de 12.000 BTU Hisense Hi Vida es perfecto para espacios de hasta 25 m². Su valor es de $499.990 CLP con instalación incluida.",
+                "18000btu": "El equipo de 18.000 BTU Hisense Hi Vida es recomendado para espacios de hasta 40 m². El precio es de $639.990 CLP con instalación incluida.",
                 "default": "Ofrecemos equipos de 9.000, 12.000 y 18.000 BTU. ¿De cuántos BTU necesitas?"
             },
             "seguridad": {
@@ -564,7 +564,33 @@
 
             switch (chatState) {
                 case 'initial':
-                    if (lowerCaseQuery.includes("climatización") || lowerCaseQuery.includes("aire")) {
+                    // Verificar si menciona climatización + BTU en el mismo mensaje
+                    if ((lowerCaseQuery.includes("climatización") || lowerCaseQuery.includes("aire")) && 
+                        (lowerCaseQuery.includes("9000") || lowerCaseQuery.includes("9.000") ||
+                         lowerCaseQuery.includes("12000") || lowerCaseQuery.includes("12.000") ||
+                         lowerCaseQuery.includes("18000") || lowerCaseQuery.includes("18.000"))) {
+                        // Procesar directamente el BTU sin pasos intermedios
+                        let btuDetected = false;
+                        
+                        if (lowerCaseQuery.includes("18000") || lowerCaseQuery.includes("18.000")) {
+                            addMessage("bot", services.climatizacion["18000btu"]);
+                            appointmentData.requirement = "Climatización 18000 BTU";
+                            btuDetected = true;
+                        } else if (lowerCaseQuery.includes("12000") || lowerCaseQuery.includes("12.000")) {
+                            addMessage("bot", services.climatizacion["12000btu"]);
+                            appointmentData.requirement = "Climatización 12000 BTU";
+                            btuDetected = true;
+                        } else if (lowerCaseQuery.includes("9000") || lowerCaseQuery.includes("9.000")) {
+                            addMessage("bot", services.climatizacion["9000btu"]);
+                            appointmentData.requirement = "Climatización 9000 BTU";
+                            btuDetected = true;
+                        }
+                        
+                        if (btuDetected) {
+                            addMessage("bot", "¿Deseas agendar una visita técnica para este servicio? (Sí/No)");
+                            chatState = 'awaitingSchedulingConfirmation';
+                        }
+                    } else if (lowerCaseQuery.includes("climatización") || lowerCaseQuery.includes("aire")) {
                         addMessage("bot", services.climatizacion.default);
                         chatState = 'awaitingClimatizacionDetail';
                     } else if (lowerCaseQuery.includes("seguridad")) {
@@ -581,19 +607,27 @@
                     break;
 
                 case 'awaitingClimatizacionDetail':
-                    if (lowerCaseQuery.includes("9000") || lowerCaseQuery.includes("9.000") || lowerCaseQuery.includes("aire de 9000") || lowerCaseQuery.includes("aire de 9.000")) {
-                        addMessage("bot", services.climatizacion["9000btu"]);
-                        appointmentData.requirement = "Climatización 9000 BTU";
-                    } else if (lowerCaseQuery.includes("12000") || lowerCaseQuery.includes("12.000") || lowerCaseQuery.includes("aire de 12000") || lowerCaseQuery.includes("aire de 12.000")) {
-                        addMessage("bot", services.climatizacion["12000btu"]);
-                        appointmentData.requirement = "Climatización 12000 BTU";
-                    } else if (lowerCaseQuery.includes("18000") || lowerCaseQuery.includes("18.000") || lowerCaseQuery.includes("aire de 18000") || lowerCaseQuery.includes("aire de 18.000")) {
+                    let btuDetected = false;
+                    
+                    if (lowerCaseQuery.includes("18000") || lowerCaseQuery.includes("18.000")) {
                         addMessage("bot", services.climatizacion["18000btu"]);
                         appointmentData.requirement = "Climatización 18000 BTU";
-                    } else {
-                        addMessage("bot", "No entendí la capacidad de BTU. Por favor, especifica 9000, 12000 o 18000 BTU (puedes usar formatos como '9.000' o 'aire de 9000').");
+                        btuDetected = true;
+                    } else if (lowerCaseQuery.includes("12000") || lowerCaseQuery.includes("12.000")) {
+                        addMessage("bot", services.climatizacion["12000btu"]);
+                        appointmentData.requirement = "Climatización 12000 BTU";
+                        btuDetected = true;
+                    } else if (lowerCaseQuery.includes("9000") || lowerCaseQuery.includes("9.000")) {
+                        addMessage("bot", services.climatizacion["9000btu"]);
+                        appointmentData.requirement = "Climatización 9000 BTU";
+                        btuDetected = true;
+                    }
+                    
+                    if (!btuDetected) {
+                        addMessage("bot", "No entendí la capacidad de BTU. Por favor, especifica 9000, 12000 o 18000 BTU.");
                         break;
                     }
+                    
                     addMessage("bot", "¿Deseas agendar una visita técnica para este servicio? (Sí/No)");
                     chatState = 'awaitingSchedulingConfirmation';
                     break;
@@ -679,36 +713,60 @@
         }
 
         function sendAppointmentEmail(data) {
+            // Validar que todos los datos requeridos estén presentes
+            if (!data.name || !data.email || !data.phone || !data.address) {
+                console.error("Error: Datos incompletos para enviar correo", data);
+                return;
+            }
+
             const templateParams = {
-                to_name: data.name,
                 to_email: data.email,
-                requirement: data.requirement || 'No especificado',
-                address: data.address,
-                phone: data.phone,
+                to_name: data.name,
                 client_name: data.name,
                 client_email: data.email,
                 client_phone: data.phone,
                 client_address: data.address,
-                service_type: data.requirement || 'No especificado'
+                service_requirement: data.requirement || 'No especificado',
+                appointment_date: new Date().toLocaleDateString('es-CL'),
+                appointment_time: new Date().toLocaleTimeString('es-CL')
             };
 
-            console.log("Enviando correos con datos:", templateParams);
+            console.log("[EmailJS] Iniciando envío de correos con datos:", templateParams);
+            console.log("[EmailJS] Service ID: service_vdy9bl5");
+            console.log("[EmailJS] Template Cliente: template_gjdask");
+            console.log("[EmailJS] Template Blinder: template_blinder_notification");
 
+            // Envío de correo al cliente
             emailjs.send("service_vdy9bl5", "template_gjdask", templateParams)
                 .then(function(response) {
-                    console.log("SUCCESS! Email to client", response.status, response.text);
-                }, function(error) {
-                    console.error("FAILED... Email to client", error);
+                    console.log("[EmailJS] SUCCESS! Email to client", response);
+                    console.log("[EmailJS] Response Status:", response.status);
+                    console.log("[EmailJS] Response Text:", response.text);
+                })
+                .catch(function(error) {
+                    console.error("[EmailJS] FAILED! Email to client", error);
+                    console.error("[EmailJS] Error Code:", error.status);
+                    console.error("[EmailJS] Error Message:", error.text);
                 });
 
+            // Envío de correo a Blinder Company con retraso
             setTimeout(function() {
-                emailjs.send("service_vdy9bl5", "template_blinder_notification", templateParams)
+                const blinderParams = {
+                    ...templateParams,
+                    to_email: "blinderspa@gmail.com"
+                };
+                
+                emailjs.send("service_vdy9bl5", "template_blinder_notification", blinderParams)
                     .then(function(response) {
-                        console.log("SUCCESS! Email to Blinder Company", response.status, response.text);
-                    }, function(error) {
-                        console.error("FAILED... Email to Blinder Company", error);
+                        console.log("[EmailJS] SUCCESS! Email to Blinder Company", response);
+                        console.log("[EmailJS] Response Status:", response.status);
+                    })
+                    .catch(function(error) {
+                        console.error("[EmailJS] FAILED! Email to Blinder Company", error);
+                        console.error("[EmailJS] Error Code:", error.status);
+                        console.error("[EmailJS] Error Message:", error.text);
                     });
-            }, 500);
+            }, 1000);
         }
 
         const chatWindow = document.getElementById("chatWindow");
