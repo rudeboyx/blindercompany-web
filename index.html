@@ -562,6 +562,12 @@
 
         let chatState = 'initial';
         let appointmentData = {};
+        
+        const equipmentPrices = {
+            "9000btu": "$449.990 CLP",
+            "12000btu": "$499.990 CLP",
+            "18000btu": "$639.990 CLP"
+        };
 
         const services = {
             "climatizacion": {
@@ -591,18 +597,21 @@
                         // Procesar directamente el BTU sin pasos intermedios
                         let btuDetected = false;
                         
-                        if (lowerCaseQuery.includes("18000") || lowerCaseQuery.includes("18.000")) {
-                            addMessage("bot", services.climatizacion["18000btu"]);
-                            appointmentData.requirement = "Climatización 18000 BTU";
-                            btuDetected = true;
-                        } else if (lowerCaseQuery.includes("12000") || lowerCaseQuery.includes("12.000")) {
-                            addMessage("bot", services.climatizacion["12000btu"]);
-                            appointmentData.requirement = "Climatización 12000 BTU";
-                            btuDetected = true;
-                        } else if (lowerCaseQuery.includes("9000") || lowerCaseQuery.includes("9.000")) {
-                            addMessage("bot", services.climatizacion["9000btu"]);
-                            appointmentData.requirement = "Climatización 9000 BTU";
-                            btuDetected = true;
+                    if (lowerCaseQuery.includes("18000") || lowerCaseQuery.includes("18.000")) {
+                        addMessage("bot", services.climatizacion["18000btu"]);
+                        appointmentData.requirement = "Climatización 18000 BTU";
+                        appointmentData.serviceValue = equipmentPrices["18000btu"];
+                        btuDetected = true;
+                    } else if (lowerCaseQuery.includes("12000") || lowerCaseQuery.includes("12.000")) {
+                        addMessage("bot", services.climatizacion["12000btu"]);
+                        appointmentData.requirement = "Climatización 12000 BTU";
+                        appointmentData.serviceValue = equipmentPrices["12000btu"];
+                        btuDetected = true;
+                    } else if (lowerCaseQuery.includes("9000") || lowerCaseQuery.includes("9.000")) {
+                        addMessage("bot", services.climatizacion["9000btu"]);
+                        appointmentData.requirement = "Climatización 9000 BTU";
+                        appointmentData.serviceValue = equipmentPrices["9000btu"];
+                        btuDetected = true;
                         }
                         
                         if (btuDetected) {
@@ -631,14 +640,17 @@
                     if (lowerCaseQuery.includes("18000") || lowerCaseQuery.includes("18.000")) {
                         addMessage("bot", services.climatizacion["18000btu"]);
                         appointmentData.requirement = "Climatización 18000 BTU";
+                        appointmentData.serviceValue = equipmentPrices["18000btu"];
                         btuDetected = true;
                     } else if (lowerCaseQuery.includes("12000") || lowerCaseQuery.includes("12.000")) {
                         addMessage("bot", services.climatizacion["12000btu"]);
                         appointmentData.requirement = "Climatización 12000 BTU";
+                        appointmentData.serviceValue = equipmentPrices["12000btu"];
                         btuDetected = true;
                     } else if (lowerCaseQuery.includes("9000") || lowerCaseQuery.includes("9.000")) {
                         addMessage("bot", services.climatizacion["9000btu"]);
                         appointmentData.requirement = "Climatización 9000 BTU";
+                        appointmentData.serviceValue = equipmentPrices["9000btu"];
                         btuDetected = true;
                     }
                     
@@ -770,6 +782,7 @@
                 client_phone: data.phone.trim(),
                 client_address: data.address.trim(),
                 service_requirement: (data.requirement || 'No especificado').trim(),
+                service_value: (data.serviceValue || 'No especificado').trim(),
                 appointment_date: new Date().toLocaleDateString('es-CL'),
                 appointment_time: new Date().toLocaleTimeString('es-CL'),
                 company_email: "blinderspa@gmail.com"
@@ -809,6 +822,20 @@
                     ...templateParams,
                     to_email: "blinderspa@gmail.com",
                     to_name: "Blinder Company"
+                };
+                
+                const blinderParams = {
+                    to_email: "blinderspa@gmail.com",
+                    to_name: "Blinder Company",
+                    client_name: data.name.trim(),
+                    client_email: data.email.trim(),
+                    client_phone: data.phone.trim(),
+                    client_address: data.address.trim(),
+                    service_requirement: (data.requirement || 'No especificado').trim(),
+                    service_value: (data.serviceValue || 'No especificado').trim(),
+                    appointment_date: new Date().toLocaleDateString('es-CL'),
+                    appointment_time: new Date().toLocaleTimeString('es-CL'),
+                    company_email: "blinderspa@gmail.com"
                 };
                 
                 console.log("[EmailJS] Parámetros para Blinder:", JSON.stringify(blinderParams, null, 2));
