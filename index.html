@@ -535,11 +535,30 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
     <script>
-        (function() {
-            emailjs.init({
-                publicKey: "CevPnugNMu1HpuE9N",
-            });
-        })();
+        // Esperar a que EmailJS esté completamente cargado
+        function initializeEmailJS() {
+            if (typeof emailjs !== 'undefined') {
+                try {
+                    emailjs.init({
+                        publicKey: "CevPnugNMu1HpuE9N",
+                    });
+                    console.log("[EmailJS] ✓ Inicialización exitosa");
+                    console.log("[EmailJS] Versión:", emailjs.version || 'desconocida');
+                } catch (error) {
+                    console.error("[EmailJS] ERROR durante inicialización:", error);
+                }
+            } else {
+                console.warn("[EmailJS] Aún no está cargado, reintentando...");
+                setTimeout(initializeEmailJS, 500);
+            }
+        }
+        
+        // Inicializar cuando el DOM esté listo
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeEmailJS);
+        } else {
+            initializeEmailJS();
+        }
 
         let chatState = 'initial';
         let appointmentData = {};
@@ -713,60 +732,104 @@
         }
 
         function sendAppointmentEmail(data) {
-            // Validar que todos los datos requeridos estén presentes
-            if (!data.name || !data.email || !data.phone || !data.address) {
-                console.error("Error: Datos incompletos para enviar correo", data);
+            console.log("[EmailJS] ========== INICIANDO ENVÍO DE CORREOS ==========");
+            console.log("[EmailJS] Datos recibidos:", JSON.stringify(data, null, 2));
+            
+            // Validación exhaustiva de datos
+            if (!data || typeof data !== 'object') {
+                console.error("[EmailJS] ERROR CRÍTICO: data no es un objeto válido", data);
+                return;
+            }
+            
+            if (!data.name || data.name.trim() === '') {
+                console.error("[EmailJS] ERROR: Nombre vacío o inválido", data.name);
+                return;
+            }
+            
+            if (!data.email || data.email.trim() === '' || !data.email.includes('@')) {
+                console.error("[EmailJS] ERROR: Email vacío, inválido o sin @", data.email);
+                return;
+            }
+            
+            if (!data.phone || data.phone.trim() === '') {
+                console.error("[EmailJS] ERROR: Teléfono vacío o inválido", data.phone);
+                return;
+            }
+            
+            if (!data.address || data.address.trim() === '') {
+                console.error("[EmailJS] ERROR: Dirección vacía o inválida", data.address);
                 return;
             }
 
+            // Construir parámetros de plantilla con valores seguros
             const templateParams = {
-                to_email: data.email,
-                to_name: data.name,
-                client_name: data.name,
-                client_email: data.email,
-                client_phone: data.phone,
-                client_address: data.address,
-                service_requirement: data.requirement || 'No especificado',
+                to_email: data.email.trim(),
+                to_name: data.name.trim(),
+                client_name: data.name.trim(),
+                client_email: data.email.trim(),
+                client_phone: data.phone.trim(),
+                client_address: data.address.trim(),
+                service_requirement: (data.requirement || 'No especificado').trim(),
                 appointment_date: new Date().toLocaleDateString('es-CL'),
-                appointment_time: new Date().toLocaleTimeString('es-CL')
+                appointment_time: new Date().toLocaleTimeString('es-CL'),
+                company_email: "blinderspa@gmail.com"
             };
 
-            console.log("[EmailJS] Iniciando envío de correos con datos:", templateParams);
+            console.log("[EmailJS] Parámetros de plantilla:", JSON.stringify(templateParams, null, 2));
             console.log("[EmailJS] Service ID: service_vdy9bl5");
             console.log("[EmailJS] Template Cliente: template_gjdask");
-            console.log("[EmailJS] Template Blinder: template_blinder_notification");
+            console.log("[EmailJS] Verificando si emailjs está disponible:", typeof emailjs);
+            
+            if (typeof emailjs === 'undefined') {
+                console.error("[EmailJS] ERROR CRÍTICO: emailjs no está cargado");
+                return;
+            }
 
             // Envío de correo al cliente
+            console.log("[EmailJS] Enviando correo al cliente...");
             emailjs.send("service_vdy9bl5", "template_gjdask", templateParams)
                 .then(function(response) {
-                    console.log("[EmailJS] SUCCESS! Email to client", response);
+                    console.log("[EmailJS] ✓ SUCCESS! Email to client");
                     console.log("[EmailJS] Response Status:", response.status);
                     console.log("[EmailJS] Response Text:", response.text);
+                    console.log("[EmailJS] Response Object:", JSON.stringify(response, null, 2));
                 })
                 .catch(function(error) {
-                    console.error("[EmailJS] FAILED! Email to client", error);
-                    console.error("[EmailJS] Error Code:", error.status);
-                    console.error("[EmailJS] Error Message:", error.text);
+                    console.error("[EmailJS] ✗ FAILED! Email to client");
+                    console.error("[EmailJS] Error Status:", error.status);
+                    console.error("[EmailJS] Error Text:", error.text);
+                    console.error("[EmailJS] Error Message:", error.message);
+                    console.error("[EmailJS] Error Object:", JSON.stringify(error, null, 2));
                 });
 
             // Envío de correo a Blinder Company con retraso
             setTimeout(function() {
+                console.log("[EmailJS] Enviando correo a Blinder Company...");
                 const blinderParams = {
                     ...templateParams,
-                    to_email: "blinderspa@gmail.com"
+                    to_email: "blinderspa@gmail.com",
+                    to_name: "Blinder Company"
                 };
+                
+                console.log("[EmailJS] Parámetros para Blinder:", JSON.stringify(blinderParams, null, 2));
+                console.log("[EmailJS] Template Blinder: template_blinder_notification");
                 
                 emailjs.send("service_vdy9bl5", "template_blinder_notification", blinderParams)
                     .then(function(response) {
-                        console.log("[EmailJS] SUCCESS! Email to Blinder Company", response);
+                        console.log("[EmailJS] ✓ SUCCESS! Email to Blinder Company");
                         console.log("[EmailJS] Response Status:", response.status);
+                        console.log("[EmailJS] Response Object:", JSON.stringify(response, null, 2));
                     })
                     .catch(function(error) {
-                        console.error("[EmailJS] FAILED! Email to Blinder Company", error);
-                        console.error("[EmailJS] Error Code:", error.status);
-                        console.error("[EmailJS] Error Message:", error.text);
+                        console.error("[EmailJS] ✗ FAILED! Email to Blinder Company");
+                        console.error("[EmailJS] Error Status:", error.status);
+                        console.error("[EmailJS] Error Text:", error.text);
+                        console.error("[EmailJS] Error Message:", error.message);
+                        console.error("[EmailJS] Error Object:", JSON.stringify(error, null, 2));
                     });
-            }, 1000);
+            }, 1500);
+            
+            console.log("[EmailJS] ========== FIN DE ENVÍO ==========");
         }
 
         const chatWindow = document.getElementById("chatWindow");
