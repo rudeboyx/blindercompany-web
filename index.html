@@ -546,7 +546,7 @@
 
         const services = {
             "climatizacion": {
-                "9000btu": "El equipo de 9.000 BTU es ideal para espacios de hasta 15 m². Tiene un valor de $350.000 CLP con instalación incluida.",
+                "9000btu": "El equipo de 9.000 BTU Hisense Hi Vida es ideal para espacios de hasta 15 m². Tiene un valor de $449.990 CLP con instalación incluida.",
                 "12000btu": "El equipo de 12.000 BTU es perfecto para espacios de hasta 25 m². Su valor es de $450.000 CLP con instalación incluida.",
                 "18000btu": "El equipo de 18.000 BTU es recomendado para espacios de hasta 40 m². El precio es de $650.000 CLP con instalación incluida.",
                 "default": "Ofrecemos equipos de 9.000, 12.000 y 18.000 BTU. ¿De cuántos BTU necesitas?"
@@ -581,17 +581,17 @@
                     break;
 
                 case 'awaitingClimatizacionDetail':
-                    if (lowerCaseQuery.includes("9000")) {
+                    if (lowerCaseQuery.includes("9000") || lowerCaseQuery.includes("9.000") || lowerCaseQuery.includes("aire de 9000") || lowerCaseQuery.includes("aire de 9.000")) {
                         addMessage("bot", services.climatizacion["9000btu"]);
                         appointmentData.requirement = "Climatización 9000 BTU";
-                    } else if (lowerCaseQuery.includes("12000")) {
+                    } else if (lowerCaseQuery.includes("12000") || lowerCaseQuery.includes("12.000") || lowerCaseQuery.includes("aire de 12000") || lowerCaseQuery.includes("aire de 12.000")) {
                         addMessage("bot", services.climatizacion["12000btu"]);
                         appointmentData.requirement = "Climatización 12000 BTU";
-                    } else if (lowerCaseQuery.includes("18000")) {
+                    } else if (lowerCaseQuery.includes("18000") || lowerCaseQuery.includes("18.000") || lowerCaseQuery.includes("aire de 18000") || lowerCaseQuery.includes("aire de 18.000")) {
                         addMessage("bot", services.climatizacion["18000btu"]);
                         appointmentData.requirement = "Climatización 18000 BTU";
                     } else {
-                        addMessage("bot", "No entendí la capacidad de BTU. Por favor, especifica 9000, 12000 o 18000 BTU.");
+                        addMessage("bot", "No entendí la capacidad de BTU. Por favor, especifica 9000, 12000 o 18000 BTU (puedes usar formatos como '9.000' o 'aire de 9000').");
                         break;
                     }
                     addMessage("bot", "¿Deseas agendar una visita técnica para este servicio? (Sí/No)");
@@ -684,22 +684,31 @@
                 to_email: data.email,
                 requirement: data.requirement || 'No especificado',
                 address: data.address,
-                phone: data.phone
+                phone: data.phone,
+                client_name: data.name,
+                client_email: data.email,
+                client_phone: data.phone,
+                client_address: data.address,
+                service_type: data.requirement || 'No especificado'
             };
+
+            console.log("Enviando correos con datos:", templateParams);
 
             emailjs.send("service_vdy9bl5", "template_gjdask", templateParams)
                 .then(function(response) {
                     console.log("SUCCESS! Email to client", response.status, response.text);
                 }, function(error) {
-                    console.log("FAILED... Email to client", error);
+                    console.error("FAILED... Email to client", error);
                 });
 
-            emailjs.send("service_vdy9bl5", "template_blinder_notification", templateParams)
-                .then(function(response) {
-                    console.log("SUCCESS! Email to Blinder Company", response.status, response.text);
-                }, function(error) {
-                    console.log("FAILED... Email to Blinder Company", error);
-                });
+            setTimeout(function() {
+                emailjs.send("service_vdy9bl5", "template_blinder_notification", templateParams)
+                    .then(function(response) {
+                        console.log("SUCCESS! Email to Blinder Company", response.status, response.text);
+                    }, function(error) {
+                        console.error("FAILED... Email to Blinder Company", error);
+                    });
+            }, 500);
         }
 
         const chatWindow = document.getElementById("chatWindow");
