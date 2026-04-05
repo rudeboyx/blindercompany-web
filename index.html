@@ -777,7 +777,7 @@
 
             console.log("[EmailJS] Parámetros de plantilla:", JSON.stringify(templateParams, null, 2));
             console.log("[EmailJS] Service ID: service_979ghrp");
-            console.log("[EmailJS] Template Cliente: template_gjdask");
+            console.log("[EmailJS] Template Cliente: template_glpdask");
             console.log("[EmailJS] Verificando si emailjs está disponible:", typeof emailjs);
             
             if (typeof emailjs === 'undefined') {
@@ -787,7 +787,7 @@
 
             // Envío de correo al cliente
             console.log("[EmailJS] Enviando correo al cliente...");
-            emailjs.send("service_979ghrp", "template_gjdask", templateParams)
+            emailjs.send("service_979ghrp", "template_glpdask", templateParams)
                 .then(function(response) {
                     console.log("[EmailJS] ✓ SUCCESS! Email to client");
                     console.log("[EmailJS] Response Status:", response.status);
@@ -814,7 +814,7 @@
                 console.log("[EmailJS] Parámetros para Blinder:", JSON.stringify(blinderParams, null, 2));
                 console.log("[EmailJS] Template Blinder: template_blinder_notification");
                 
-                emailjs.send("service_979ghrp", "template_blinder_notification", blinderParams)
+                emailjs.send("service_979ghrp", "template_glpdask", blinderParams)
                     .then(function(response) {
                         console.log("[EmailJS] ✓ SUCCESS! Email to Blinder Company");
                         console.log("[EmailJS] Response Status:", response.status);
