@@ -3,795 +3,784 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blinder Company | Ingeniería, climatización y seguridad</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>Blinder Company - Climatización Inteligente | Distribuidor Autorizado Hisense</title>
+    <meta name="description" content="Blinder Company: Distribuidor autorizado de equipos de climatización Hisense. Instalación profesional de aires acondicionados inverter R32 con WiFi en toda la región.">
+    <meta name="keywords" content="climatización, aire acondicionado, Hisense, instalación, BTU, inverter, WiFi">
     <style>
-        :root {
-            --primary: #00f2ff;
-            --secondary: #00050a;
-            --accent: #ff2d55;
-            --text: #ffffff;
-            --bg: #00050a;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         body {
-            background-color: var(--bg);
-            color: var(--text);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a1628 0%, #1a2a4a 100%);
+            color: #ffffff;
             line-height: 1.6;
-            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* Nav */
-        .nav {
-            padding: 24px 0;
-            position: fixed;
-            width: 100%;
+        /* HEADER Y NAVEGACIÓN */
+        header {
+            background: rgba(10, 22, 40, 0.95);
+            padding: 1rem 2rem;
+            position: sticky;
             top: 0;
             z-index: 1000;
-            background: rgba(0, 5, 10, 0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 2px solid #00d4ff;
         }
 
-        .nav .container {
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .nav-logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            text-decoration: none;
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00d4ff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        .nav-links {
+        .logo span {
+            color: #ff6b35;
+        }
+
+        nav ul {
             display: flex;
-            gap: 32px;
             list-style: none;
+            gap: 2rem;
         }
 
-        .nav-links a {
-            color: var(--text);
+        nav a {
+            color: #ffffff;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 500;
             transition: color 0.3s;
         }
 
-        .nav-links a:hover {
-            color: var(--primary);
+        nav a:hover {
+            color: #00d4ff;
         }
 
-        .nav-cta {
-            background: var(--primary);
-            color: var(--bg);
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .nav-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0, 242, 255, 0.3);
-        }
-
-        /* Hero */
+        /* HERO SECTION */
         .hero {
-            padding: 120px 0 80px;
-            margin-top: 60px;
+            background: linear-gradient(135deg, #0a1628 0%, #1a3a5a 50%, #00d4ff 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .hero .container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
         }
 
-        .hero-content h1 {
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
             font-size: 3.5rem;
-            line-height: 1.2;
-            margin-bottom: 24px;
-            color: var(--text);
+            margin-bottom: 1rem;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        .hero-content h1 span {
-            color: var(--primary);
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: #e0e0e0;
         }
 
-        .hero-content p {
-            font-size: 1.1rem;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 32px;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 16px;
-        }
-
-        .btn {
-            padding: 14px 32px;
-            border-radius: 8px;
+        .cta-button {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: bold;
+            font-size: 1.1rem;
             transition: all 0.3s;
-            border: none;
+            border: 2px solid #ff6b35;
             cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background: transparent;
+            color: #ff6b35;
+        }
+
+        /* CALCULADORA DE BTU */
+        .calculator-section {
+            background: rgba(26, 42, 74, 0.8);
+            padding: 3rem 2rem;
+            margin: 2rem 0;
+        }
+
+        .calculator-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(0, 212, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid #00d4ff;
+        }
+
+        .calculator-container h2 {
+            color: #00d4ff;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #00d4ff;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
             font-size: 1rem;
         }
 
-        .btn-primary {
-            background: var(--primary);
-            color: var(--bg);
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff6b35;
+            background: rgba(255, 255, 255, 0.15);
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(0, 242, 255, 0.3);
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
         }
 
-        .btn-secondary {
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            background: transparent;
+        .result-box {
+            background: rgba(255, 107, 53, 0.2);
+            border: 2px solid #ff6b35;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 1.5rem;
+            display: none;
         }
 
-        .btn-secondary:hover {
-            background: rgba(0, 242, 255, 0.1);
+        .result-box.show {
+            display: block;
         }
 
-        .hero-services {
+        .result-box h3 {
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-box p {
+            font-size: 1.5rem;
+            color: #ff6b35;
+            font-weight: bold;
+        }
+
+        /* SECCIÓN DE OFERTAS */
+        .offers-section {
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, #0a1628 0%, #1a2a4a 100%);
+        }
+
+        .offers-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .offers-container h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #00d4ff;
+        }
+
+        .promotion-badge {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .offers-grid {
             display: grid;
-            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
         }
 
-        .service-card {
-            background: rgba(0, 242, 255, 0.05);
-            border: 1px solid rgba(0, 242, 255, 0.2);
-            padding: 24px;
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
+        .offer-card {
+            background: rgba(0, 212, 255, 0.05);
+            border: 2px solid #00d4ff;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
         }
 
-        .service-card h3 {
-            color: var(--primary);
-            margin-bottom: 8px;
+        .offer-card:hover {
+            background: rgba(0, 212, 255, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
         }
 
-        .service-card p {
-            color: rgba(255,255,255,0.7);
-            font-size: 0.95rem;
+        .offer-card h3 {
+            color: #00d4ff;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
         }
 
-        /* Chat Widget */
-        .chat-widget {
+        .offer-card .btu {
+            font-size: 2.5rem;
+            color: #ff6b35;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .offer-card .price {
+            font-size: 1.8rem;
+            color: #00d4ff;
+            margin: 1rem 0;
+            font-weight: bold;
+        }
+
+        .offer-card .features {
+            font-size: 0.9rem;
+            color: #b0b0b0;
+            margin: 1rem 0;
+            line-height: 1.8;
+        }
+
+        .offer-card .installation {
+            background: #00d4ff;
+            color: #0a1628;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        /* TABLA DE PRECIOS */
+        .price-table {
+            background: rgba(26, 42, 74, 0.8);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+
+        .price-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .price-table th {
+            background: #00d4ff;
+            color: #0a1628;
+            padding: 1rem;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .price-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #00d4ff;
+        }
+
+        .price-table tr:hover {
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        /* SECCIÓN DE CONTACTO */
+        .contact-section {
+            background: linear-gradient(135deg, #1a2a4a 0%, #0a1628 100%);
+            padding: 3rem 2rem;
+        }
+
+        .contact-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(0, 212, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid #00d4ff;
+        }
+
+        .contact-container h2 {
+            color: #00d4ff;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #00d4ff;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ff6b35;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 1rem;
+            background: #ff6b35;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-button:hover {
+            background: #ff5520;
+            transform: scale(1.02);
+        }
+
+        /* MÉTODOS DE PAGO */
+        .payment-methods {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #00d4ff;
+        }
+
+        .payment-methods p {
+            color: #b0b0b0;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .payment-logos {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .payment-logo {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #0a1628;
+            padding: 2rem;
+            text-align: center;
+            border-top: 2px solid #00d4ff;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-info h3 {
+            color: #00d4ff;
+            margin-bottom: 1rem;
+        }
+
+        .footer-info p {
+            color: #b0b0b0;
+        }
+
+        .footer-info a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        .footer-info a:hover {
+            color: #ff6b35;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #00d4ff;
+            padding-top: 1rem;
+            color: #b0b0b0;
+        }
+
+        /* BOTÓN FLOTANTE DE WHATSAPP */
+        .whatsapp-button {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 9999;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        .chat-btn {
+            bottom: 2rem;
+            right: 2rem;
+            background: #25d366;
+            color: white;
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: var(--primary);
-            border: none;
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
-            box-shadow: 0 4px 16px rgba(0, 242, 255, 0.3);
-            transition: all 0.3s ease;
-            z-index: 10000;
-        }
-
-        .chat-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 24px rgba(0, 242, 255, 0.5);
-        }
-
-        .chat-btn.active {
-            background: var(--accent);
-        }
-
-        .chat-window {
-            position: fixed;
-            bottom: 100px;
-            right: 24px;
-            width: 380px;
-            height: 600px;
-            background: var(--bg);
-            border: 1px solid rgba(0, 242, 255, 0.2);
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-            z-index: 9998;
-        }
-
-        .chat-window.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .chat-header {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: var(--bg);
-            padding: 20px;
-            border-radius: 12px 12px 0 0;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .message {
-            display: flex;
-            margin-bottom: 12px;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .message.bot {
-            justify-content: flex-start;
-        }
-
-        .message.user {
-            justify-content: flex-end;
-        }
-
-        .message-content {
-            max-width: 70%;
-            padding: 12px 16px;
-            border-radius: 12px;
-            word-wrap: break-word;
-        }
-
-        .message.bot .message-content {
-            background: rgba(0, 242, 255, 0.1);
-            border: 1px solid rgba(0, 242, 255, 0.2);
-            color: var(--text);
-        }
-
-        .message.user .message-content {
-            background: var(--primary);
-            color: var(--bg);
-        }
-
-        .chat-input-container {
-            display: flex;
-            gap: 8px;
-            padding: 16px;
-            border-top: 1px solid rgba(0, 242, 255, 0.2);
-        }
-
-        .chat-input {
-            flex: 1;
-            background: rgba(0, 242, 255, 0.05);
-            border: 1px solid rgba(0, 242, 255, 0.2);
-            color: var(--text);
-            padding: 10px 12px;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        .chat-input::placeholder {
-            color: rgba(255,255,255,0.5);
-        }
-
-        .chat-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: rgba(0, 242, 255, 0.1);
-        }
-
-        .chat-send {
-            background: var(--primary);
-            border: none;
-            color: var(--bg);
-            width: 40px;
-            height: 40px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .chat-send:hover {
-            transform: scale(1.05);
-        }
-
-        .typing-indicator {
-            display: flex;
-            gap: 4px;
-            padding: 12px 16px;
-        }
-
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--primary);
-            animation: typing 1.4s infinite;
-        }
-
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes typing {
-            0%, 60%, 100% {
-                opacity: 0.5;
-            }
-            30% {
-                opacity: 1;
-            }
-        }
-
-        .chat-suggestion {
-            position: fixed;
-            bottom: 100px;
-            right: 420px;
-            background: rgba(0, 242, 255, 0.1);
-            border: 1px solid rgba(0, 242, 255, 0.3);
-            padding: 16px 20px;
-            border-radius: 8px;
-            color: var(--text);
-            font-size: 0.95rem;
-            max-width: 300px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateX(20px);
-            transition: all 0.3s ease;
-            z-index: 9997;
-        }
-
-        .chat-suggestion.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(0);
-        }
-
-        /* WhatsApp Float */
-        .wsp-float {
-            position: fixed;
-            bottom: 24px;
-            right: 100px;
-            width: 50px;
-            height: 50px;
-            background: #25D366;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
             text-decoration: none;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+            font-size: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
             transition: all 0.3s;
-            z-index: 9996;
+            z-index: 999;
         }
 
-        .wsp-float:hover {
+        .whatsapp-button:hover {
+            background: #20ba5f;
             transform: scale(1.1);
-            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.5);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
         }
 
+        /* RESPONSIVE */
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
             }
 
-            .hero .container {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .offers-grid {
                 grid-template-columns: 1fr;
             }
 
-            .hero-content h1 {
-                font-size: 2.5rem;
+            .footer-info {
+                grid-template-columns: 1fr;
             }
 
-            .chat-window {
-                width: 90vw;
-                height: 70vh;
-                bottom: 80px;
-                right: 5vw;
-            }
-
-            .chat-suggestion {
-                display: none;
+            .whatsapp-button {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+                bottom: 1rem;
+                right: 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="nav">
-        <div class="container">
-            <a href="#" class="nav-logo">🏢 Blinder</a>
-            <ul class="nav-links">
-                <li><a href="#servicios">Servicios</a></li>
-                <li><a href="#nosotros">Nosotros</a></li>
+    <!-- HEADER -->
+    <header>
+        <nav>
+            <div class="logo">BLINDER<span>.</span>CL</div>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#ofertas">Ofertas</a></li>
                 <li><a href="#contacto">Contacto</a></li>
             </ul>
-            <a href="#" class="nav-cta">Cotizar proyecto</a>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Soluciones de <span>ingeniería</span> para empresas que necesitan resultados.</h1>
-                <p>En Blinder Company desarrollamos soluciones en climatización, seguridad electrónica y soporte técnico para empresas que exigen orden, eficiencia y una ejecución confiable.</p>
-                <div class="hero-buttons">
-                    <button class="btn btn-primary" onclick="document.querySelector('.chat-btn').click()">Hablar por WhatsApp</button>
-                    <button class="btn btn-secondary">Ver servicios</button>
-                </div>
+    <!-- HERO SECTION -->
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <h1>Climatización Inteligente para tu Vida</h1>
+            <p>Distribuidor Autorizado de Equipos Hisense con Tecnología Inverter R32, WiFi y Máxima Eficiencia Energética</p>
+            <a href="#contacto" class="cta-button">Solicita tu Cotización</a>
+        </div>
+    </section>
+
+    <!-- CALCULADORA DE BTU -->
+    <section class="calculator-section">
+        <div class="calculator-container">
+            <h2>🌡️ Calcula tu BTU Ideal</h2>
+            <div class="form-group">
+                <label for="metros">Ingresa los metros cuadrados de tu espacio:</label>
+                <input type="number" id="metros" placeholder="Ej: 30" min="1">
             </div>
-            <div class="hero-services">
-                <div class="service-card">
-                    <h3>Respuesta comercial clara</h3>
-                    <p>Atención rápida para clientes que buscan una propuesta seria y bien presentada.</p>
-                </div>
-                <div class="service-card">
-                    <h3>Implementación ordenada</h3>
-                    <p>Ejecución técnica enfocada en terminaciones, seguridad y buena presencia operativa.</p>
-                </div>
-                <div class="service-card">
-                    <h3>Soporte y seguimiento</h3>
-                    <p>Acompañamiento para que cada proyecto tenga continuidad y respaldo.</p>
-                </div>
+            <button class="cta-button" onclick="calcularBTU()">Calcular</button>
+            <div class="result-box" id="resultado">
+                <h3>BTU Recomendado:</h3>
+                <p id="btuResult"></p>
             </div>
         </div>
     </section>
 
-    <!-- Chat Widget -->
-    <div class="chat-widget">
-        <button class="chat-btn" id="chatBtn" onclick="toggleChat()">🤖</button>
-        
-        <div class="chat-window" id="chatWindow">
-            <div class="chat-header">Blinder Company - Asistente</div>
-            <div class="chat-messages" id="chatMessages"></div>
-            <div class="chat-input-container">
-                <input type="text" class="chat-input" id="chatInput" placeholder="Escribe tu mensaje..." onkeypress="handleKeyPress(event)">
-                <button class="chat-send" onclick="sendMessage()">➤</button>
+    <!-- SECCIÓN DE OFERTAS -->
+    <section class="offers-section" id="ofertas">
+        <div class="offers-container">
+            <div class="promotion-badge">🎉 PROMOCIÓN LANZAMIENTO</div>
+            <h2>Nuestras Ofertas Especiales</h2>
+            <div class="offers-grid">
+                <div class="offer-card">
+                    <h3>Hi-Vida</h3>
+                    <div class="btu">9.000 BTU</div>
+                    <div class="price">$449.990</div>
+                    <div class="features">
+                        ✓ Inverter R32<br>
+                        ✓ WiFi Integrado<br>
+                        ✓ Calor y Frío
+                    </div>
+                    <div class="installation">✓ INCLUYE INSTALACIÓN</div>
+                </div>
+                <div class="offer-card">
+                    <h3>Hi-Vida</h3>
+                    <div class="btu">12.000 BTU</div>
+                    <div class="price">$499.990</div>
+                    <div class="features">
+                        ✓ Inverter R32<br>
+                        ✓ WiFi Integrado<br>
+                        ✓ Calor y Frío
+                    </div>
+                    <div class="installation">✓ INCLUYE INSTALACIÓN</div>
+                </div>
+                <div class="offer-card">
+                    <h3>Hi-Vida</h3>
+                    <div class="btu">18.000 BTU</div>
+                    <div class="price">$639.990</div>
+                    <div class="features">
+                        ✓ Inverter R32<br>
+                        ✓ WiFi Integrado<br>
+                        ✓ Calor y Frío
+                    </div>
+                    <div class="installation">✓ INCLUYE INSTALACIÓN</div>
+                </div>
+            </div>
+
+            <div class="price-table">
+                <h3 style="color: #00d4ff; margin-bottom: 1rem;">Tabla Completa de Precios Instalados</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Capacidad</th>
+                            <th>Modelo</th>
+                            <th>Precio Instalado</th>
+                            <th>Características</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>9.000 BTU</td>
+                            <td>Hi-Vida</td>
+                            <td>$449.990</td>
+                            <td>Inverter R32, WiFi</td>
+                        </tr>
+                        <tr>
+                            <td>12.000 BTU</td>
+                            <td>Hi-Vida</td>
+                            <td>$499.990</td>
+                            <td>Inverter R32, WiFi</td>
+                        </tr>
+                        <tr>
+                            <td>18.000 BTU</td>
+                            <td>Hi-Vida</td>
+                            <td>$639.990</td>
+                            <td>Inverter R32, WiFi</td>
+                        </tr>
+                        <tr>
+                            <td>24.000 BTU</td>
+                            <td>Hi-Vida</td>
+                            <td>$729.990</td>
+                            <td>Inverter R32, WiFi</td>
+                        </tr>
+                        <tr>
+                            <td>36.000 BTU</td>
+                            <td>Hi-Vida</td>
+                            <td>$1.179.990</td>
+                            <td>Inverter R32, WiFi</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
+    </section>
 
-        <div class="chat-suggestion" id="chatSuggestion">
-            <span id="suggestionText">¿Necesitas climatización para tu espacio?</span>
+    <!-- SECCIÓN DE CONTACTO -->
+    <section class="contact-section" id="contacto">
+        <div class="contact-container">
+            <h2>📋 Solicita tu Cotización</h2>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="nombre">Nombre Completo:</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono:</label>
+                    <input type="tel" id="telefono" name="telefono" placeholder="Tu teléfono" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo Electrónico:</label>
+                    <input type="email" id="email" name="email" placeholder="Tu correo" required>
+                </div>
+                <div class="form-group">
+                    <label for="direccion">Dirección:</label>
+                    <input type="text" id="direccion" name="direccion" placeholder="Tu dirección" required>
+                </div>
+                <div class="form-group">
+                    <label for="metros_contacto">Metros Cuadrados:</label>
+                    <input type="number" id="metros_contacto" name="metros_contacto" placeholder="Ej: 30" required>
+                </div>
+                <div class="form-group">
+                    <label for="mensaje">Mensaje (Opcional):</label>
+                    <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos más sobre tu proyecto..."></textarea>
+                </div>
+                <button type="submit" class="submit-button">Enviar Cotización</button>
+                <div class="payment-methods">
+                    <p>Aceptamos los siguientes métodos de pago:</p>
+                    <div class="payment-logos">
+                        <div class="payment-logo">Transbank</div>
+                        <div class="payment-logo">Red Compra</div>
+                        <div class="payment-logo">VISA</div>
+                        <div class="payment-logo">Mastercard</div>
+                        <div class="payment-logo">Magna</div>
+                    </div>
+                </div>
+            </form>
         </div>
-    </div>
+    </section>
 
-    <!-- WhatsApp Float -->
-    <a href="https://wa.me/56981260066" class="wsp-float" target="_blank">✆</a>
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <div>
+                    <h3>Blinder Company</h3>
+                    <p>Engineering and Solutions</p>
+                    <p>Distribuidor Autorizado Hisense</p>
+                </div>
+                <div>
+                    <h3>Contacto</h3>
+                    <p>📱 <a href="https://wa.me/56981260066">+56 9 8126 0066</a></p>
+                    <p>🌐 www.blindercompany.cl</p>
+                    <p>📧 blinderspa@gmail.com</p>
+                </div>
+                <div>
+                    <h3>Síguenos</h3>
+                    <p>📸 <a href="https://instagram.com/blindercompany">@blindercompany</a></p>
+                    <p>💼 LinkedIn: Blinder Company</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Blinder Company. Todos los derechos reservados. | Distribuidor Autorizado de Hisense</p>
+            </div>
+        </div>
+    </footer>
 
-    <!-- EmailJS Script -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <!-- BOTÓN FLOTANTE DE WHATSAPP -->
+    <a href="https://wa.me/56981260066?text=Hola%20Blinder%20Company%2C%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20sus%20equipos%20de%20climatizaci%C3%B3n" class="whatsapp-button" target="_blank">
+        💬
+    </a>
 
-    <script>
-        // ============================================
-        // CONFIGURACIÓN EMAILJS
-        // ============================================
-        emailjs.init({
-            publicKey: "CevPnugNMu1HpuE9N"
-        });
+    <!-- SCRIPT DE EMAILJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
+    <script type="text/javascript">
+        // Inicializar EmailJS
+        emailjs.init('CevPnugNMu1HpuE9N');
 
-        // ============================================
-        // VARIABLES GLOBALES
-        // ============================================
-        let chatState = 'initial';
-        let appointmentData = {};
-        
-        const equipmentPrices = {
-            "9000": "$449.990 CLP",
-            "12000": "$499.990 CLP",
-            "18000": "$639.990 CLP"
-        };
+        // Función para calcular BTU
+        function calcularBTU() {
+            const metros = document.getElementById('metros').value;
+            if (!metros || metros <= 0) {
+                alert('Por favor ingresa un número válido de metros cuadrados');
+                return;
+            }
 
-        const suggestions = [
-            "¿Necesitas climatización para tu espacio?",
-            "Contamos con sistemas de seguridad de última generación",
-            "¿Requieres soporte técnico especializado?"
-        ];
+            let btu = metros * 300;
+            let recomendacion = '';
 
-        let currentSuggestionIndex = 0;
-
-        // ============================================
-        // FUNCIONES DE CHAT
-        // ============================================
-        function toggleChat() {
-            const chatWindow = document.getElementById('chatWindow');
-            const chatBtn = document.getElementById('chatBtn');
-            const chatSuggestion = document.getElementById('chatSuggestion');
-
-            if (chatWindow.classList.contains('active')) {
-                chatWindow.classList.remove('active');
-                chatBtn.classList.remove('active');
-                chatSuggestion.classList.add('visible');
+            if (btu <= 9000) {
+                recomendacion = '9.000 BTU - Ideal para espacios pequeños (hasta 30 m²)';
+            } else if (btu <= 12000) {
+                recomendacion = '12.000 BTU - Perfecto para espacios medianos (30-40 m²)';
+            } else if (btu <= 18000) {
+                recomendacion = '18.000 BTU - Excelente para espacios grandes (40-60 m²)';
+            } else if (btu <= 24000) {
+                recomendacion = '24.000 BTU - Para espacios muy grandes (60-80 m²)';
             } else {
-                chatWindow.classList.add('active');
-                chatBtn.classList.add('active');
-                chatSuggestion.classList.remove('visible');
-                
-                // Si es la primera vez, mostrar saludo
-                if (document.getElementById('chatMessages').children.length === 0) {
-                    addBotMessage("¡Hola! 👋 Bienvenido a Blinder Company. ¿En qué puedo ayudarte hoy?");
-                }
+                recomendacion = '36.000 BTU - Para espacios comerciales o muy amplios (80+ m²)';
             }
+
+            document.getElementById('btuResult').textContent = recomendacion;
+            document.getElementById('resultado').classList.add('show');
         }
 
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
-        }
+        // Enviar formulario por EmailJS
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
 
-        function sendMessage() {
-            const chatInput = document.getElementById('chatInput');
-            const message = chatInput.value.trim();
-
-            if (!message) return;
-
-            addUserMessage(message);
-            chatInput.value = '';
-
-            setTimeout(() => {
-                processUserMessage(message);
-            }, 500);
-        }
-
-        function addUserMessage(text) {
-            const chatMessages = document.getElementById('chatMessages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'message user';
-            messageDiv.innerHTML = `<div class="message-content">${escapeHtml(text)}</div>`;
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function addBotMessage(text) {
-            const chatMessages = document.getElementById('chatMessages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'message bot';
-            messageDiv.innerHTML = `<div class="message-content">${text}</div>`;
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function showTyping() {
-            const chatMessages = document.getElementById('chatMessages');
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'message bot';
-            typingDiv.id = 'typingIndicator';
-            typingDiv.innerHTML = `<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
-            chatMessages.appendChild(typingDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function removeTyping() {
-            const typing = document.getElementById('typingIndicator');
-            if (typing) typing.remove();
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        // ============================================
-        // LÓGICA DE CONVERSACIÓN
-        // ============================================
-        function processUserMessage(message) {
-            const lowerMessage = message.toLowerCase();
-
-            if (chatState === 'initial') {
-                if (lowerMessage.includes('climatización') || lowerMessage.includes('aire') || lowerMessage.includes('clima')) {
-                    // Detectar BTU si está en el mismo mensaje
-                    const btuMatch = message.match(/(\d+)\s*(?:btu|mil|000)/i);
-                    if (btuMatch) {
-                        const btu = btuMatch[1];
-                        handleClimatizationWithBTU(btu);
-                    } else {
-                        chatState = 'awaitingClimatizationDetail';
-                        showTyping();
-                        setTimeout(() => {
-                            removeTyping();
-                            addBotMessage("Perfecto. ¿De cuántos BTU necesitas el equipo? (9000, 12000 o 18000)");
-                        }, 1000);
-                    }
-                } else {
-                    showTyping();
-                    setTimeout(() => {
-                        removeTyping();
-                        addBotMessage("Entendido. Ofrecemos soluciones en climatización, seguridad y soporte técnico. ¿Cuál de estos servicios te interesa?");
-                    }, 1000);
-                }
-            } else if (chatState === 'awaitingClimatizationDetail') {
-                const btuMatch = message.match(/(\d+)\s*(?:btu|mil|000)?/i);
-                if (btuMatch) {
-                    const btu = btuMatch[1];
-                    handleClimatizationWithBTU(btu);
-                } else {
-                    showTyping();
-                    setTimeout(() => {
-                        removeTyping();
-                        addBotMessage("Por favor, especifica la capacidad en BTU: 9000, 12000 o 18000.");
-                    }, 1000);
-                }
-            } else if (chatState === 'awaitingScheduling') {
-                if (lowerMessage.includes('sí') || lowerMessage.includes('si') || lowerMessage.includes('claro') || lowerMessage.includes('ok')) {
-                    chatState = 'collectingName';
-                    showTyping();
-                    setTimeout(() => {
-                        removeTyping();
-                        addBotMessage("Excelente. ¿Cuál es tu nombre completo?");
-                    }, 1000);
-                } else {
-                    chatState = 'initial';
-                    showTyping();
-                    setTimeout(() => {
-                        removeTyping();
-                        addBotMessage("Entendido. ¿Hay algo más en lo que pueda ayudarte?");
-                    }, 1000);
-                }
-            } else if (chatState === 'collectingName') {
-                appointmentData.name = message;
-                chatState = 'collectingAddress';
-                showTyping();
-                setTimeout(() => {
-                    removeTyping();
-                    addBotMessage("Gracias. ¿Cuál es tu dirección?");
-                }, 1000);
-            } else if (chatState === 'collectingAddress') {
-                appointmentData.address = message;
-                chatState = 'collectingPhone';
-                showTyping();
-                setTimeout(() => {
-                    removeTyping();
-                    addBotMessage("¿Cuál es tu número de teléfono?");
-                }, 1000);
-            } else if (chatState === 'collectingPhone') {
-                appointmentData.phone = message;
-                chatState = 'collectingEmail';
-                showTyping();
-                setTimeout(() => {
-                    removeTyping();
-                    addBotMessage("¿Cuál es tu correo electrónico?");
-                }, 1000);
-            } else if (chatState === 'collectingEmail') {
-                appointmentData.email = message;
-                chatState = 'confirmingAppointment';
-                showTyping();
-                setTimeout(() => {
-                    removeTyping();
-                    addBotMessage("Perfecto. Voy a enviar tu cita. Por favor confirma: ¿Todos los datos son correctos?");
-                }, 1000);
-            } else if (chatState === 'confirmingAppointment') {
-                if (lowerMessage.includes('sí') || lowerMessage.includes('si') || lowerMessage.includes('confirmo')) {
-                    sendAppointmentEmail();
-                } else {
-                    chatState = 'initial';
-                    appointmentData = {};
-                    showTyping();
-                    setTimeout(() => {
-                        removeTyping();
-                        addBotMessage("Entendido. Comencemos de nuevo. ¿En qué puedo ayudarte?");
-                    }, 1000);
-                }
-            }
-        }
-
-        function handleClimatizationWithBTU(btu) {
-            const price = equipmentPrices[btu];
-            if (price) {
-                appointmentData.btu = btu;
-                appointmentData.price = price;
-                chatState = 'awaitingScheduling';
-                showTyping();
-                setTimeout(() => {
-                    removeTyping();
-                    addBotMessage(`Excelente. El equipo de ${btu} BTU Hisense Hi Vida cuesta ${price} con instalación incluida. ¿Te gustaría agendar una visita técnica para evaluar tu espacio?`);
-                }, 1000);
-            } else {
-                showTyping();
-                setTimeout(() => {
-                    removeTyping();
-                    addBotMessage("Disculpa, solo contamos con equipos de 9000, 12000 o 18000 BTU. ¿Cuál de estos te interesa?");
-                }, 1000);
-            }
-        }
-
-        function sendAppointmentEmail() {
-            showTyping();
+            const nombre = document.getElementById('nombre').value;
+            const telefono = document.getElementById('telefono').value;
+            const email = document.getElementById('email').value;
+            const direccion = document.getElementById('direccion').value;
+            const metros = document.getElementById('metros_contacto').value;
+            const mensaje = document.getElementById('mensaje').value;
 
             const templateParams = {
-                client_name: appointmentData.name,
-                client_email: appointmentData.email,
-                client_phone: appointmentData.phone,
-                client_address: appointmentData.address,
-                service_requirement: `Climatización ${appointmentData.btu} BTU`,
-                service_value: appointmentData.price,
-                appointment_date: new Date().toLocaleDateString('es-CL'),
-                company_email: 'blinderspa@gmail.com'
+                nombre: nombre,
+                telefono: telefono,
+                email: email,
+                direccion: direccion,
+                metros: metros,
+                mensaje: mensaje || 'Sin mensaje adicional'
             };
 
-            emailjs.send('service_979ghrp', 'template_glpdask', templateParams)
+            emailjs.send('service_979ghrp', 'template_s3jy8h7', templateParams)
                 .then(function(response) {
-                    console.log('✓ Correos enviados exitosamente', response.status, response.text);
-                    removeTyping();
-                    chatState = 'initial';
-                    appointmentData = {};
-                    addBotMessage("¡Perfecto! Tu cita ha sido registrada. Te enviaremos un resumen por correo. ¿Hay algo más en lo que pueda ayudarte?");
+                    alert('¡Cotización enviada exitosamente! Nos contactaremos pronto.');
+                    document.getElementById('contactForm').reset();
                 }, function(error) {
-                    console.error('✗ Error al enviar correos:', error);
-                    removeTyping();
-                    addBotMessage("Hubo un error al registrar tu cita. Por favor, intenta nuevamente o contacta directamente a WhatsApp.");
+                    alert('Hubo un error al enviar tu cotización. Por favor intenta de nuevo.');
+                    console.log('Error:', error);
                 });
-        }
+        });
 
-        // ============================================
-        // SUGERENCIAS ROTATIVAS
-        // ============================================
-        function updateSuggestion() {
-            const suggestionText = document.getElementById('suggestionText');
-            if (suggestionText) {
-                suggestionText.textContent = suggestions[currentSuggestionIndex];
-                currentSuggestionIndex = (currentSuggestionIndex + 1) % suggestions.length;
+        // Permitir Enter en el calculador de BTU
+        document.getElementById('metros').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calcularBTU();
             }
-        }
-
-        setInterval(updateSuggestion, 5000);
+        });
     </script>
 </body>
 </html>
